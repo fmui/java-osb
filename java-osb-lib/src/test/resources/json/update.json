@@ -1,0 +1,18 @@
+{
+  "context": {
+    "platform": "cloudfoundry",
+    "some_field": "some-contextual-data"
+  },
+  "service_id": "service-id-here",
+  "plan_id": "plan-id-here",
+  "parameters": {
+    "parameter1": 1,
+    "parameter2": "foo"
+  },
+  "previous_values": {
+    "plan_id": "old-plan-id-here",
+    "service_id": "service-id-here",
+    "organization_id": "org-guid-here",
+    "space_id": "space-guid-here"
+  }
+}
