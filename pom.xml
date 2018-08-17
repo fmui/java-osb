@@ -15,18 +15,18 @@
    limitations under the License. 
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.fmui.osb.broker</groupId>
-	<artifactId>java-osb</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>de.fmui.osb.broker</groupId>
+    <artifactId>java-osb</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>java-osb</name>
-	<description>A Java implementation of the Open Service Broker API.</description>
-	<url>https://github.com/fmui/java-osb</url>
+    <name>java-osb</name>
+    <description>A Java implementation of the Open Service Broker API.</description>
+    <url>https://github.com/fmui/java-osb</url>
 
     <licenses>
         <license>
@@ -54,14 +54,14 @@
         <url>https://github.com/fmui/java-osb/issues</url>
     </issueManagement>
     
-	<modules>
-		<module>java-osb-lib</module>
-		<module>java-osb-example</module>
-	</modules>
+    <modules>
+        <module>java-osb-lib</module>
+        <module>java-osb-example</module>
+    </modules>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-	</properties>
+    </properties>
 </project>
