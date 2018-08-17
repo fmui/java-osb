@@ -17,6 +17,7 @@ package de.fmui.osb.broker.requests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 import java.io.StringWriter;
 
@@ -37,6 +38,9 @@ public class InvalidRequestsTest {
 	public void testInvalidMethodsOrPaths() throws Exception {
 		executeRequest("GET", "/v2/catalog/test");
 		executeRequest("PUT", "/v2/catalog");
+		executeRequest("PUT", "/v2/service_instances/");
+		executeRequest("DELETE", "/v2/service_instances/123");
+		executeRequest("GET", " /v2/service_instances//last_operation");
 	}
 
 	private HttpServletResponse executeRequest(String method, String path) throws Exception {
@@ -76,6 +80,119 @@ public class InvalidRequestsTest {
 
 		// check status code
 		assertEquals(400, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertNotNull(responseBody.get("error"));
+	}
+
+	@Test
+	public void testInvalidJSONBody() throws Exception {
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("PUT", "/v2/service_instances/12345", "{}");
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		// run
+		OpenServiceBroker osb = new OpenServiceBroker();
+		osb.processRequest(request, response, new AbstractTestHandler() {
+		});
+
+		// check status code
+		assertEquals(400, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertNotNull(responseBody.get("error"));
+	}
+
+	@Test
+	public void testBrokerAPIVersion2x() throws Exception {
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("PUT", "/v2/service_instances/12345", "bla");
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		// run
+		OpenServiceBroker osb = new OpenServiceBroker();
+		osb.setBrokerAPIMinVersion("2.9999");
+		osb.processRequest(request, response, new AbstractTestHandler() {
+		});
+
+		// check status code
+		assertEquals(412, response.getStatus());
+
+		// check body
+		JSONObject responseBody1 = JSONHelper.parse(stringWriter.toString());
+		assertNotNull(responseBody1.get("error"));
+	}
+
+	@Test
+	public void testBrokerAPIVersion3x() throws Exception {
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("PUT", "/v2/service_instances/12345", "bla");
+		when(request.getHeader("X-Broker-API-Version")).thenReturn("3.9999");
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		OpenServiceBroker osb = new OpenServiceBroker();
+
+		// run
+		osb.setBrokerAPIMinVersion("2.12");
+		osb.processRequest(request, response, new AbstractTestHandler() {
+		});
+
+		// check status code
+		assertEquals(412, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertNotNull(responseBody.get("error"));
+	}
+
+	@Test
+	public void testBrokerAPIVersionInvalid() throws Exception {
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("PUT", "/v2/service_instances/12345", "bla");
+		when(request.getHeader("X-Broker-API-Version")).thenReturn("abc");
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		OpenServiceBroker osb = new OpenServiceBroker();
+
+		// run
+		osb.processRequest(request, response, new AbstractTestHandler() {
+		});
+
+		// check status code
+		assertEquals(412, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertNotNull(responseBody.get("error"));
+	}
+
+	@Test
+	public void testBrokerAPIVersionMissing() throws Exception {
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("PUT", "/v2/service_instances/12345", "bla");
+		when(request.getHeader("X-Broker-API-Version")).thenReturn(null);
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		OpenServiceBroker osb = new OpenServiceBroker();
+
+		// run
+		osb.processRequest(request, response, new AbstractTestHandler() {
+		});
+
+		// check status code
+		assertEquals(412, response.getStatus());
 
 		// check body
 		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());

@@ -16,8 +16,10 @@
 package de.fmui.osb.broker.instance;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 
 import de.fmui.osb.broker.OpenServiceBroker;
+import de.fmui.osb.broker.State;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
 import de.fmui.osb.broker.helpers.AbstractTestHandler;
 import de.fmui.osb.broker.helpers.JSONHelper;
@@ -57,6 +60,7 @@ public class RequestsTest {
 				assertEquals(instanceID, request.getInstanceID());
 				assertNotNull(request.getRequestBody());
 				assertEquals("service-id-here", request.getRequestBody().getServiceID());
+				assertFalse(request.isAcceptsIncomplete());
 
 				ProvisionResponseBody body = new ProvisionResponseBody();
 				body.setDashboardURL("http://example-dashboard.example.com/9189kdfsk0vfnku");
@@ -74,7 +78,7 @@ public class RequestsTest {
 	}
 
 	@Test
-	public void testDeprovisionRequest() throws Exception {
+	public void testDeprovisionRequestSync() throws Exception {
 		String instanceID = "123-456-78";
 		String serviceID = "service-id-here";
 		String planID = "plan-id-here";
@@ -83,6 +87,7 @@ public class RequestsTest {
 		Map<String, String> parameters = new HashMap<>();
 		parameters.put("service_id", serviceID);
 		parameters.put("plan_id", planID);
+		parameters.put("accepts_incomplete", "false");
 
 		HttpServletRequest request = MockFactory.createHttpServletRequest("DELETE",
 				"/v2/service_instances/" + instanceID, parameters);
@@ -97,6 +102,7 @@ public class RequestsTest {
 				assertEquals(instanceID, request.getInstanceID());
 				assertEquals(serviceID, request.getServiceID());
 				assertEquals(planID, request.getPlanID());
+				assertFalse(request.isAcceptsIncomplete());
 				assertNull(request.getRequestBody());
 
 				return DeprovisionResponse.builder().ok().build();
@@ -105,6 +111,51 @@ public class RequestsTest {
 
 		// check status code
 		assertEquals(200, response.getStatus());
+	}
+
+	@Test
+	public void testDeprovisionRequestAsync() throws Exception {
+		String instanceID = "123-456-78";
+		String serviceID = "service-id-here";
+		String planID = "plan-id-here";
+		String operation = "operation-1";
+
+		// prepare request and response object
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("service_id", serviceID);
+		parameters.put("plan_id", planID);
+		parameters.put("accepts_incomplete", "true");
+
+		HttpServletRequest request = MockFactory.createHttpServletRequest("DELETE",
+				"/v2/service_instances/" + instanceID, parameters);
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		// run
+		OpenServiceBroker osb = new OpenServiceBroker();
+		osb.processRequest(request, response, new AbstractTestHandler() {
+			@Override
+			public DeprovisionResponse deprovision(DeprovisionRequest request) throws OpenServiceBrokerException {
+				assertEquals(instanceID, request.getInstanceID());
+				assertEquals(serviceID, request.getServiceID());
+				assertEquals(planID, request.getPlanID());
+				assertTrue(request.isAcceptsIncomplete());
+				assertNull(request.getRequestBody());
+
+				DeprovisionResponseBody body = new DeprovisionResponseBody();
+				body.setOperation(operation);
+
+				return DeprovisionResponse.builder().accepted().body(body).build();
+			}
+		});
+
+		// check status code
+		assertEquals(202, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertEquals(operation, responseBody.get("operation"));
 	}
 
 	@Test
@@ -142,5 +193,56 @@ public class RequestsTest {
 		// check body
 		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
 		assertEquals(dashboardURL, responseBody.get("dashboard_url"));
+	}
+
+	@Test
+	public void testLastOperationRequest() throws Exception {
+		String instanceID = "123-456-78";
+		String serviceID = "service-id-here";
+		String planID = "plan-id-here";
+		String operation = "operation-42";
+		String description = "Still working on it.";
+
+		// prepare request and response object
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("service_id", serviceID);
+		parameters.put("plan_id", planID);
+		parameters.put("operation", operation);
+
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("GET",
+				"/v2/service_instances/" + instanceID + "/last_operation", parameters);
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		// run
+		OpenServiceBroker osb = new OpenServiceBroker();
+		osb.processRequest(request, response, new AbstractTestHandler() {
+
+			@Override
+			public InstanceLastOperationResponse getLastOperationForInstance(InstanceLastOperationRequest request)
+					throws OpenServiceBrokerException {
+				assertEquals(instanceID, request.getInstanceID());
+				assertEquals(serviceID, request.getServiceID());
+				assertEquals(planID, request.getPlanID());
+				assertEquals(operation, request.getOperation());
+				assertNull(request.getRequestBody());
+
+				InstanceLastOperationResponseBody body = new InstanceLastOperationResponseBody();
+				body.setState(State.IN_PROGRESS);
+				body.setDescription(description);
+
+				return InstanceLastOperationResponse.builder().ok().body(body).build();
+			}
+		});
+
+		// check status code
+		assertEquals(200, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertEquals(State.IN_PROGRESS, State.fromValue((String) responseBody.get("state")));
+		assertEquals(description, responseBody.get("description"));
 	}
 }

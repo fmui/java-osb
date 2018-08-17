@@ -16,12 +16,23 @@
 package de.fmui.osb.broker;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.io.StringWriter;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 
 import de.fmui.osb.broker.instance.ProvisionRequestBody;
+import de.fmui.osb.broker.internal.json.JSONObjectImpl;
+import de.fmui.osb.broker.internal.json.JSONValue;
 import de.fmui.osb.broker.internal.json.parser.JSONParser;
+import de.fmui.osb.broker.json.JSONObject;
 
 public class ParserTest {
 
@@ -37,5 +48,46 @@ public class ParserTest {
 		ProvisionRequestBody obj = parser.parse(json, new ProvisionRequestBody());
 		assertTrue(obj.getContext() != null);
 		assertEquals("value", obj.getContext().get("key"));
+	}
+
+	@Test
+	public void testParse2() throws Exception {
+		String charTestStr = "\\\\\n\t\r\"\f\b\u0000";
+
+		JSONObject json = new JSONObjectImpl();
+		json.put("null", null);
+		json.put("integer", 42);
+		json.put("double", 42.1d);
+		json.put("float", 42.2f);
+		json.put("dec", new BigDecimal("42.3"));
+		json.put("bool", true);
+		json.put("chars", charTestStr);
+		json.put("list", Arrays.asList("a", "b", "c"));
+		json.put("map", Collections.singletonMap("key", "value"));
+
+		String jsonStr1 = json.toJSONString();
+		assertNotNull(jsonStr1);
+
+		StringWriter sw = new StringWriter();
+		json.writeJSONString(sw);
+		String jsonStr2 = sw.toString();
+		assertNotNull(jsonStr2);
+
+		assertEquals(jsonStr1, jsonStr2);
+
+		JSONObject parsed = JSONValue.parse(jsonStr1, new JSONObjectImpl());
+		assertEquals(null, parsed.get("null"));
+		assertTrue(parsed.containsKey("null"));
+		assertEquals(42L, parsed.get("integer"));
+		assertTrue(parsed.get("double") instanceof BigDecimal);
+		assertTrue(parsed.get("float") instanceof BigDecimal);
+		assertTrue(parsed.get("dec") instanceof BigDecimal);
+		assertEquals(new BigDecimal("42.3"), parsed.get("dec"));
+		assertEquals(true, parsed.get("bool"));
+		assertEquals(charTestStr, parsed.get("chars"));
+		assertTrue(parsed.get("list") instanceof List);
+		assertEquals(3, ((List<?>) parsed.get("list")).size());
+		assertTrue(parsed.get("map") instanceof Map);
+		assertEquals(1, ((Map<?, ?>) parsed.get("map")).size());
 	}
 }

@@ -96,7 +96,7 @@ public class OpenServiceBroker {
 				osbResponse = handler.getCatalog((CatalogRequest) osbRequest);
 			} else if (isProvsionRequest(method, path)) {
 				// provison request
-				String instanceID = path[path.length - 1];
+				String instanceID = getPathSegment(path, -1);
 
 				osbRequest = new ProvisionRequest(instanceID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, new ProvisionRequestBody());
@@ -104,7 +104,7 @@ public class OpenServiceBroker {
 				osbResponse = handler.provision((ProvisionRequest) osbRequest);
 			} else if (isInstanceUpdateRequest(method, path)) {
 				// update request
-				String instanceID = path[path.length - 1];
+				String instanceID = getPathSegment(path, -1);
 
 				osbRequest = new UpdateServiceInstanceRequest(instanceID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials,
@@ -112,10 +112,10 @@ public class OpenServiceBroker {
 
 				osbResponse = handler.update((UpdateServiceInstanceRequest) osbRequest);
 			} else if (isDeprovsionRequest(method, path)) {
-				// deprovison request
-				String instanceID = path[path.length - 1];
-				String serviceID = getParameter(request, "service_id");
-				String planID = getParameter(request, "plan_id");
+				// deprovision request
+				String instanceID = getPathSegment(path, -1);
+				String serviceID = getRequiredParameter(request, "service_id");
+				String planID = getRequiredParameter(request, "plan_id");
 
 				osbRequest = new DeprovisionRequest(instanceID, serviceID, planID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
@@ -123,7 +123,7 @@ public class OpenServiceBroker {
 				osbResponse = handler.deprovision((DeprovisionRequest) osbRequest);
 			} else if (isInstanceLastOperationRequest(method, path)) {
 				// instance last operation request
-				String instanceID = path[path.length - 2];
+				String instanceID = getPathSegment(path, -2);
 				String serviceID = request.getParameter("service_id");
 				String planID = request.getParameter("plan_id");
 				String operation = request.getParameter("operation");
@@ -134,8 +134,8 @@ public class OpenServiceBroker {
 				osbResponse = handler.getLastOperationForInstance((InstanceLastOperationRequest) osbRequest);
 			} else if (isBindRequest(method, path)) {
 				// instance last operation request
-				String instanceID = path[path.length - 3];
-				String bindingID = path[path.length - 1];
+				String instanceID = getPathSegment(path, -3);
+				String bindingID = getPathSegment(path, -1);
 
 				osbRequest = new BindRequest(instanceID, bindingID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, new BindRequestBody());
@@ -143,10 +143,10 @@ public class OpenServiceBroker {
 				osbResponse = handler.bind((BindRequest) osbRequest);
 			} else if (isUnbindRequest(method, path)) {
 				// instance last operation request
-				String instanceID = path[path.length - 3];
-				String bindingID = path[path.length - 1];
-				String serviceID = getParameter(request, "service_id");
-				String planID = getParameter(request, "plan_id");
+				String instanceID = getPathSegment(path, -3);
+				String bindingID = getPathSegment(path, -1);
+				String serviceID = getRequiredParameter(request, "service_id");
+				String planID = getRequiredParameter(request, "plan_id");
 
 				osbRequest = new UnbindRequest(instanceID, bindingID, serviceID, planID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
@@ -305,7 +305,21 @@ public class OpenServiceBroker {
 		return "true".equals(request.getParameter("accepts_incomplete"));
 	}
 
-	protected String getParameter(HttpServletRequest request, String name) throws OpenServiceBrokerException {
+	protected String getPathSegment(String[] path, int position) throws OpenServiceBrokerException {
+		int index = position < 0 ? path.length + position : position;
+		if (index >= path.length || index < 0) {
+			throw new IllegalArgumentException("Invalid position!");
+		}
+
+		String segement = path[index];
+		if (segement.isEmpty()) {
+			throw new BadRequestException("Invalid path!");
+		}
+
+		return segement;
+	}
+
+	protected String getRequiredParameter(HttpServletRequest request, String name) throws OpenServiceBrokerException {
 		String s = request.getParameter(name);
 		if (s == null || s.isEmpty()) {
 			throw new BadRequestException("Query parameter '" + name + "' is missing!");

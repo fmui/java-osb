@@ -83,6 +83,7 @@ public abstract class AbstractTestHandler implements OpenServiceBrokerHandler, E
 		if (args != null) {
 			for (Object arg : args) {
 				if (arg instanceof Throwable) {
+					System.err.println();
 					((Throwable) arg).printStackTrace(System.err);
 				}
 			}

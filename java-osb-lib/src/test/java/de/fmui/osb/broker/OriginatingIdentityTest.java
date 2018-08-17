@@ -19,6 +19,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import de.fmui.osb.broker.internal.json.JSONObjectImpl;
+import de.fmui.osb.broker.internal.json.JSONValue;
+
 public class OriginatingIdentityTest {
 
 	@Test
@@ -28,5 +31,7 @@ public class OriginatingIdentityTest {
 
 		assertEquals("someplatform", oi.getPlatform());
 		assertEquals("683ea748-3092-4ff4-b656-39cacc4d5360", oi.getValueAsJSON().get("user_id"));
+		assertEquals("683ea748-3092-4ff4-b656-39cacc4d5360",
+				JSONValue.parseWithException(oi.getValue(), new JSONObjectImpl()).get("user_id"));
 	}
 }
