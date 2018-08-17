@@ -25,8 +25,35 @@
 	<packaging>pom</packaging>
 
 	<name>java-osb</name>
+	<description>A Java implementation of the Open Service Broker API.</description>
 	<url>https://github.com/fmui/java-osb</url>
 
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Florian Müller</name>
+            <email>dev-java-osb@fmui.de</email>
+            <organizationUrl>https://github.com/fmui</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/fmui/java-osb.git</connection>
+        <developerConnection>scm:git:ssh://github.com:fmui/java-osb.git</developerConnection>
+        <url>http://github.com/fmui/java-osb/tree/master</url>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/fmui/java-osb/issues</url>
+    </issueManagement>
+    
 	<modules>
 		<module>java-osb-lib</module>
 		<module>java-osb-example</module>
