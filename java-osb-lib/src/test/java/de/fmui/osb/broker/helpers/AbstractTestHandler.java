@@ -23,7 +23,6 @@ import de.fmui.osb.broker.binding.UnbindResponse;
 import de.fmui.osb.broker.catalog.CatalogRequest;
 import de.fmui.osb.broker.catalog.CatalogResponse;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
-import de.fmui.osb.broker.handler.ErrorLogHandler;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
@@ -34,7 +33,7 @@ import de.fmui.osb.broker.instance.ProvisionResponse;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceRequest;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceResponse;
 
-public abstract class AbstractTestHandler implements OpenServiceBrokerHandler, ErrorLogHandler {
+public abstract class AbstractTestHandler implements OpenServiceBrokerHandler {
 
 	@Override
 	public void authenticate(RequestCredentials credentials) throws OpenServiceBrokerException {
@@ -75,18 +74,5 @@ public abstract class AbstractTestHandler implements OpenServiceBrokerHandler, E
 	@Override
 	public UnbindResponse unbind(UnbindRequest request) throws OpenServiceBrokerException {
 		return null;
-	}
-
-	@Override
-	public void logError(String message, Object... args) {
-		System.err.printf(message, args);
-		if (args != null) {
-			for (Object arg : args) {
-				if (arg instanceof Throwable) {
-					System.err.println();
-					((Throwable) arg).printStackTrace(System.err);
-				}
-			}
-		}
 	}
 }

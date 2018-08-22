@@ -27,10 +27,16 @@ public enum State {
 		value = v;
 	}
 
+	/**
+	 * Returns the state value as defined in the OSBAPI specification.
+	 */
 	public String value() {
 		return value;
 	}
 
+	/**
+	 * Returns the enum from the state value.
+	 */
 	public static State fromValue(String v) {
 		for (State c : State.values()) {
 			if (c.value.equals(v)) {

@@ -35,6 +35,10 @@ public class UpdateServiceInstanceResponse extends OpenServiceBrokerResponse {
 			return this;
 		}
 
+		public UpdateServiceInstanceResponseBuilder async(boolean async) {
+			return async ? accepted() : ok();
+		}
+
 		public UpdateServiceInstanceResponseBuilder ok() {
 			statusCode = 200;
 			return this;

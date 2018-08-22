@@ -34,10 +34,16 @@ public class BasicAuthCredentials extends RequestCredentials {
 		this.password = password;
 	}
 
+	/**
+	 * Returns the user name.
+	 */
 	public String getUsername() {
 		return user;
 	}
 
+	/**
+	 * Returns the password.
+	 */
 	public String getPassword() {
 		return password;
 	}

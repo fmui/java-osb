@@ -35,6 +35,10 @@ public class ProvisionResponse extends OpenServiceBrokerResponse {
 			return this;
 		}
 
+		public ProvisionResponseBuilder async(boolean async) {
+			return async ? accepted() : ok();
+		}
+		
 		public ProvisionResponseBuilder ok() {
 			statusCode = 200;
 			return this;

@@ -1,40 +1,79 @@
 {
-	"services": [
-		{
-			"id": "e1270a8f-50a6-476d-9e16-c456c0815949",
-			"name": "fake-service",
-			"description": "A fake service.",
-			"tags": [
-				"first tag",
-				"second tag2"
-			],
-			"bindable": true,
-			"instances_retrievable": false,
-			"bindings_retrievable": false,
-			"metadata": {
-				"displayName": "The Fake Service Broker"
+	"services": [{
+		"id": "e1270a8f-50a6-476d-9e16-c456c0815949",
+		"name": "fake-service",
+		"description": "A fake service.",
+		"tags": [
+			"first tag",
+			"second tag2"
+		],
+		"bindable": true,
+		"instances_retrievable": false,
+		"bindings_retrievable": false,
+		"metadata": {
+			"displayName": "The Fake Service Broker"
+		},
+		"plan_updateable": true,
+		"plans": [{
+				"id": "cebcb73b-da3a-404d-bf6c-f37087600fe1",
+				"name": "fake-plan-1",
+				"description": "A fake plan.",
+				"free": true,
+				"metadata": {
+					"displayName": "The Fake Plan"
+				}
 			},
-			"plan_updateable": true,
-			"plans": [
-				{
-					"id": "cebcb73b-da3a-404d-bf6c-f37087600fe1",
-					"name": "fake-plan-1",
-					"description": "A fake plan.",
-					"free": true,
-					"metadata": {
-						"displayName": "The Fake Plan"
-					}
+			{
+				"id": "3ea75c97-67b9-4951-9327-99fe09058154",
+				"name": "fake-plan-2",
+				"description": "Another fake plan.",
+				"free": true,
+				"metadata": {
+					"displayName": "The Fake Plan II"
 				},
-				{
-					"id": "3ea75c97-67b9-4951-9327-99fe09058154",
-					"name": "fake-plan-2",
-					"description": "Another fake plan.",
-					"free": true,
-					"metadata": {
-						"displayName": "The Fake Plan II"
+				"schemas": {
+					"service_instance": {
+						"create": {
+							"parameters": {
+								"$schema": "http://json-schema.org/draft-04/schema#",
+								"type": "object",
+								"properties": {
+									"some-string": {
+										"description": "Some fake string.",
+										"type": "string"
+									}
+								}
+							}
+						},
+						"update": {
+							"parameters": {
+								"$schema": "http://json-schema.org/draft-04/schema#",
+								"type": "object",
+								"properties": {
+									"some-string": {
+										"description": "Some fake string.",
+										"type": "string"
+									}
+								}
+							}
+						}
+					},
+					"service_binding": {
+						"create": {
+							"parameters": {
+								"$schema": "http://json-schema.org/draft-04/schema#",
+								"type": "object",
+								"properties": {
+									"bind-string": {
+										"description": "A bind string.",
+										"type": "string"
+									}
+								}
+							}
+						}
 					}
 				}
-			]
-		}
-	]
+			}
+		]
+	}]
 }

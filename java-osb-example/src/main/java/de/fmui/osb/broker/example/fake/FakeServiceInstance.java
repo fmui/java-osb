@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.fmui.osb.broker.instance.ProvisionRequest;
+import de.fmui.osb.broker.instance.UpdateServiceInstanceRequest;
 
 public class FakeServiceInstance {
 
@@ -30,6 +31,7 @@ public class FakeServiceInstance {
 	private Map<String, FakeServiceBinding> bindings = new HashMap<>();
 
 	private long provisioningTimestamp = 0;
+	private long updateTimestamp = 0;
 	private long deprovisioningTimestamp = 0;
 
 	public FakeServiceInstance(String id) {
@@ -42,6 +44,11 @@ public class FakeServiceInstance {
 		planID = request.getRequestBody().getPlanID();
 		context = request.getRequestBody().getContext();
 		parameters = request.getRequestBody().getParameters();
+	}
+
+	public void update(UpdateServiceInstanceRequest request) {
+		planID = request.getRequestBody().getPlanID();
+		parameters.putAll(request.getRequestBody().getParameters());
 	}
 
 	public String getId() {
@@ -102,6 +109,20 @@ public class FakeServiceInstance {
 
 	public boolean isProvisioningInProgress() {
 		return provisioningTimestamp > 0 && provisioningTimestamp >= System.currentTimeMillis();
+	}
+
+	public void setUpdateTimestamp(long updateTimestamp) {
+		if (this.updateTimestamp == 0) {
+			this.updateTimestamp = updateTimestamp;
+		}
+	}
+
+	public void resetUpdateTimestamp() {
+		this.updateTimestamp = 0;
+	}
+
+	public boolean isUpdateInProgress() {
+		return updateTimestamp > 0 && updateTimestamp >= System.currentTimeMillis();
 	}
 
 	public long getDeprovisioningTimestamp() {

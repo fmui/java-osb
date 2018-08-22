@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-package de.fmui.osb.broker;
+package de.fmui.osb.broker.objects;
 
-import javax.servlet.http.HttpServletRequest;
+public class CloudFoundryContext extends Context {
 
-/**
- * Request credentials.
- */
-public class RequestCredentials {
+	private static final long serialVersionUID = 1L;
 
-	private HttpServletRequest request;
+	public static final String KEY_ORGANIZATION_GUID = "organization_guid";
+	public static final String KEY_SPACE_GUID = "space_guid";
 
-	RequestCredentials(HttpServletRequest request) {
-		this.request = request;
+	public CloudFoundryContext() {
 	}
 
-	/**
-	 * Returns the HTTP request object.
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		return request;
+	public CloudFoundryContext(Context context) {
+		putAll(context);
+	}
+
+	public String getOrganizationGUID() {
+		return getString(KEY_ORGANIZATION_GUID);
+	}
+
+	public String getSpaceGUID() {
+		return getString(KEY_SPACE_GUID);
 	}
 }

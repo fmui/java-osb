@@ -35,6 +35,10 @@ public class BindResponse extends OpenServiceBrokerResponse {
 			return this;
 		}
 
+		public BindResponseBuilder async(boolean async) {
+			return async ? accepted() : ok();
+		}
+
 		public BindResponseBuilder ok() {
 			statusCode = 200;
 			return this;

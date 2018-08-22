@@ -45,21 +45,6 @@ public class BrokerUtils {
 	}
 
 	/**
-	 * Logs error messages to stderr.
-	 */
-	public static void logError(String message, Object... args) {
-		System.err.printf(message, args);
-		if (args != null) {
-			for (Object arg : args) {
-				if (arg instanceof Throwable) {
-					System.err.println();
-					((Throwable) arg).printStackTrace(System.err);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Checks if the credentials are basic auth and if username and password
 	 * correct.
 	 */

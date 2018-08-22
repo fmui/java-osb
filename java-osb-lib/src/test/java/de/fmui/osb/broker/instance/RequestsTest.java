@@ -78,6 +78,16 @@ public class RequestsTest {
 	}
 
 	@Test
+	public void testProvisionResponses() {
+		ProvisionResponseBody body = new ProvisionResponseBody();
+
+		assertEquals(200, ProvisionResponse.builder().ok().body(body).build().getStatusCode());
+		assertEquals(200, ProvisionResponse.builder().async(false).body(body).build().getStatusCode());
+		assertEquals(202, ProvisionResponse.builder().accepted().body(body).build().getStatusCode());
+		assertEquals(202, ProvisionResponse.builder().async(true).body(body).build().getStatusCode());
+	}
+
+	@Test
 	public void testDeprovisionRequestSync() throws Exception {
 		String instanceID = "123-456-78";
 		String serviceID = "service-id-here";
@@ -159,6 +169,16 @@ public class RequestsTest {
 	}
 
 	@Test
+	public void testDeprovisionResponses() {
+		DeprovisionResponseBody body = new DeprovisionResponseBody();
+
+		assertEquals(200, DeprovisionResponse.builder().ok().body(body).build().getStatusCode());
+		assertEquals(200, DeprovisionResponse.builder().async(false).body(body).build().getStatusCode());
+		assertEquals(202, DeprovisionResponse.builder().accepted().body(body).build().getStatusCode());
+		assertEquals(202, DeprovisionResponse.builder().async(true).body(body).build().getStatusCode());
+	}
+
+	@Test
 	public void testUpdateServiceInstanceRequest() throws Exception {
 		String instanceID = "123-456-78";
 		String dashboardURL = "http://example-dashboard.example.com/9189kdfsk0vfnku";
@@ -195,6 +215,16 @@ public class RequestsTest {
 		assertEquals(dashboardURL, responseBody.get("dashboard_url"));
 	}
 
+	@Test
+	public void testUpdateServiceInstanceResponses() {
+		UpdateServiceInstanceResponseBody body = new UpdateServiceInstanceResponseBody();
+
+		assertEquals(200, UpdateServiceInstanceResponse.builder().ok().body(body).build().getStatusCode());
+		assertEquals(200, UpdateServiceInstanceResponse.builder().async(false).body(body).build().getStatusCode());
+		assertEquals(202, UpdateServiceInstanceResponse.builder().accepted().body(body).build().getStatusCode());
+		assertEquals(202, UpdateServiceInstanceResponse.builder().async(true).body(body).build().getStatusCode());
+	}
+	
 	@Test
 	public void testLastOperationRequest() throws Exception {
 		String instanceID = "123-456-78";

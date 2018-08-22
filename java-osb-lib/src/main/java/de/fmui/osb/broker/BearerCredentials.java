@@ -31,6 +31,9 @@ public class BearerCredentials extends RequestCredentials {
 		this.token = token;
 	}
 
+	/**
+	 * Returns the token.
+	 */
 	public String getToken() {
 		return token;
 	}

@@ -30,23 +30,41 @@ public class OriginatingIdentity {
 	private String value;
 	private JSONObject json;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param header
+	 *            the HTTP header
+	 */
 	public OriginatingIdentity(String header) {
 		this.header = header;
 		parse(header);
 	}
 
+	/**
+	 * Returns the HTTP header.
+	 */
 	public String getHeader() {
 		return header;
 	}
 
+	/**
+	 * Returns the platform.
+	 */
 	public String getPlatform() {
 		return platform;
 	}
 
+	/**
+	 * Returns the value as a string.
+	 */
 	public String getValue() {
 		return value;
 	}
 
+	/**
+	 * Returns the value as a JSON object.
+	 */
 	public JSONObject getValueAsJSON() {
 		return json;
 	}

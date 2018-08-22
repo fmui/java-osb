@@ -20,10 +20,28 @@ import java.util.Map;
 
 public class OSBUtils {
 
+	/**
+	 * Compares two parameter maps.
+	 * 
+	 * @param params1
+	 *            first parameter map
+	 * @param params2
+	 *            second parameter map
+	 * @return {@code true} if both maps are equal, {@code false} otherwise
+	 */
 	public static boolean compareParameters(Map<String, Object> params1, Map<String, Object> params2) {
 		return compareObjects(params1, params2);
 	}
 
+	/**
+	 * Compares two objects.
+	 * 
+	 * @param o1
+	 *            first object
+	 * @param o2
+	 *            second object
+	 * @return {@code true} if both objects are equal, {@code false} otherwise
+	 */
 	private static boolean compareObjects(Object o1, Object o2) {
 		if (o1 == o2 || (o1 == null && o2 == null)) {
 			return true;

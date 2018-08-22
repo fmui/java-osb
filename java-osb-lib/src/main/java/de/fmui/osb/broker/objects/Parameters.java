@@ -21,8 +21,4 @@ public class Parameters extends AbstractOpenServiceBrokerObject implements JSONO
 
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public void validate() {
-		// nothing to do
-	}
 }

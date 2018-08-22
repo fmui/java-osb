@@ -17,13 +17,28 @@ package de.fmui.osb.broker.objects;
 
 import de.fmui.osb.broker.json.JSONObject;
 
-public class DashboardClient extends AbstractOpenServiceBrokerObject implements JSONObject {
+@KeyMapping(jsonKey = "create", osbClass = Schema.class)
+@KeyMapping(jsonKey = "update", osbClass = Schema.class)
+public class ServiceInstanceSchema extends AbstractOpenServiceBrokerObject implements JSONObject {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String KEY_ID = "id";
-	public final static String KEY_SECRET = "secret";
-	public final static String KEY_REDIRECT_URI = "redirect_uri";
+	public final static String KEY_CREATE = "create";
+	public final static String KEY_UPDATE = "update";
 
-	// TODO
+	public Schema getCreateSchema() {
+		return get(KEY_CREATE, Schema.class);
+	}
+
+	public void setCreateSchema(Schema schema) {
+		put(KEY_CREATE, schema);
+	}
+
+	public Schema getUpdateSchema() {
+		return get(KEY_UPDATE, Schema.class);
+	}
+
+	public void setUpdateSchema(Schema schema) {
+		put(KEY_UPDATE, schema);
+	}
 }

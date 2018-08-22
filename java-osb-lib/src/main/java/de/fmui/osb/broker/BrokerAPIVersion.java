@@ -23,14 +23,26 @@ public class BrokerAPIVersion implements Comparable<BrokerAPIVersion> {
 	private int major;
 	private int minor;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param version
+	 *            the version as string
+	 */
 	public BrokerAPIVersion(String version) {
 		parse(version);
 	}
 
+	/**
+	 * Returns the major version.
+	 */
 	public int getMajorVersion() {
 		return major;
 	}
 
+	/**
+	 * Returns the minor version.
+	 */
 	public int getMinorVersion() {
 		return minor;
 	}

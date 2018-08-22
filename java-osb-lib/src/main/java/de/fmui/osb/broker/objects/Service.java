@@ -36,7 +36,7 @@ public class Service extends AbstractOpenServiceBrokerObject implements JSONObje
 	public final static String KEY_BINDING_RETRIEVABLE = "bindings_retrievable";
 	public final static String KEY_METADATA = "metadata";
 	public final static String KEY_DASHBOARD_CLIENT = "dashboard_client";
-	public final static String KEY_PLAN_UPDATABLE = " plan_updateable";
+	public final static String KEY_PLAN_UPDATEABLE = " plan_updateable";
 	public final static String KEY_PLANS = "plans";
 
 	public String getName() {
@@ -128,11 +128,11 @@ public class Service extends AbstractOpenServiceBrokerObject implements JSONObje
 	}
 
 	public Boolean getPlanUpdateable() {
-		return getBoolean(KEY_PLAN_UPDATABLE);
+		return getBoolean(KEY_PLAN_UPDATEABLE);
 	}
 
 	public void setPlanUpdateable(boolean updateable) {
-		put(KEY_PLAN_UPDATABLE, updateable);
+		put(KEY_PLAN_UPDATEABLE, updateable);
 	}
 
 	public JSONArray<Plan> getPlans() {
@@ -160,6 +160,9 @@ public class Service extends AbstractOpenServiceBrokerObject implements JSONObje
 		}
 		if (getBindable() == null) {
 			throw new ValidationException("Invalid or missing bindable flag!");
+		}
+		if (isNullOrEmpty(KEY_PLANS)) {
+			throw new ValidationException("Invalid or missing array of plans!");
 		}
 
 		super.validate();

@@ -15,23 +15,26 @@
  */
 package de.fmui.osb.broker;
 
-import javax.servlet.http.HttpServletRequest;
+import de.fmui.osb.broker.handler.ErrorLogHandler;
 
 /**
- * Request credentials.
+ * Default implementation of the {@link ErrorLogHandler} interface.
  */
-public class RequestCredentials {
-
-	private HttpServletRequest request;
-
-	RequestCredentials(HttpServletRequest request) {
-		this.request = request;
-	}
+public class DefaultErrorLogHandler implements ErrorLogHandler {
 
 	/**
-	 * Returns the HTTP request object.
+	 * Writes error messages to stderr.
 	 */
-	public HttpServletRequest getHttpServletRequest() {
-		return request;
+	@Override
+	public void logError(String message, Object... args) {
+		System.err.printf(message, args);
+		if (args != null) {
+			for (Object arg : args) {
+				if (arg instanceof Throwable) {
+					System.err.println();
+					((Throwable) arg).printStackTrace(System.err);
+				}
+			}
+		}
 	}
 }

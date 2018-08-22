@@ -38,7 +38,6 @@ import de.fmui.osb.broker.exceptions.ConcurrencyErrorException;
 import de.fmui.osb.broker.exceptions.ConflictException;
 import de.fmui.osb.broker.exceptions.GoneException;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
-import de.fmui.osb.broker.handler.ErrorLogHandler;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
@@ -51,9 +50,10 @@ import de.fmui.osb.broker.instance.ProvisionResponse;
 import de.fmui.osb.broker.instance.ProvisionResponseBody;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceRequest;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceResponse;
+import de.fmui.osb.broker.instance.UpdateServiceInstanceResponseBody;
 import de.fmui.osb.broker.objects.Credentials;
 
-public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, ErrorLogHandler {
+public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler {
 
 	private FakeService fakeService;
 	private CatalogResponseBody catalog;
@@ -95,7 +95,7 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, Erro
 		if (existingInstance == null) {
 			// there is no instance with this ID -> create one
 			FakeServiceInstance instance = new FakeServiceInstance(request);
-			instance.setProvisioningTimestamp(fakeService.getProvisoningDelay() * 1000 + System.currentTimeMillis());
+			instance.setProvisioningTimestamp(fakeService.getDelay() * 1000 + System.currentTimeMillis());
 			fakeService.addServiceInstance(instance);
 
 			// send response
@@ -133,7 +133,18 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, Erro
 			throw new BadRequestException("Unknown instance.");
 		}
 
-		return null;
+		UpdateServiceInstanceResponseBody body = new UpdateServiceInstanceResponseBody();
+
+		if (!existingInstance.isUpdateInProgress()) {
+			// trigger update
+			existingInstance.setUpdateTimestamp(fakeService.getDelay() * 1000 + System.currentTimeMillis());
+			existingInstance.update(request);
+
+			body.setOperation("update-" + UUID.randomUUID().toString());
+		}
+
+		// send response
+		return UpdateServiceInstanceResponse.builder().accepted().body(body).build();
 	}
 
 	@Override
@@ -154,7 +165,7 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, Erro
 			throw new ConcurrencyErrorException("Provisioning not finished!");
 		}
 
-		instance.setProvisioningTimestamp(fakeService.getProvisoningDelay() * 1000 + System.currentTimeMillis());
+		instance.setProvisioningTimestamp(fakeService.getDelay() * 1000 + System.currentTimeMillis());
 
 		DeprovisionResponseBody body = new DeprovisionResponseBody();
 
@@ -170,9 +181,11 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, Erro
 			throw new BadRequestException("Unknown instance.");
 		} else {
 			State state;
-			if (instance.isProvisioningInProgress() || instance.isDeprovisioningInProgress()) {
+			if (instance.isProvisioningInProgress() || instance.isUpdateInProgress()
+					|| instance.isDeprovisioningInProgress()) {
 				state = State.IN_PROGRESS;
 			} else {
+				instance.resetUpdateTimestamp();
 				state = State.SUCCEEDED;
 			}
 
@@ -254,8 +267,4 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler, Erro
 		}
 	}
 
-	@Override
-	public void logError(String message, Object... args) {
-		BrokerUtils.logError(message, args);
-	}
 }

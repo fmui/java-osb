@@ -35,6 +35,10 @@ public class DeprovisionResponse extends OpenServiceBrokerResponse {
 			return this;
 		}
 
+		public DeprovisionResponseBuilder async(boolean async) {
+			return async ? accepted() : ok();
+		}
+
 		public DeprovisionResponseBuilder ok() {
 			statusCode = 200;
 			body = new DeprovisionResponseBody();

@@ -26,8 +26,4 @@ public class Context extends AbstractOpenServiceBrokerObject implements JSONObje
 	public String getPlatform() {
 		return getString(KEY_PLATFORM);
 	}
-
-	public void setPlatform(String platform) {
-		put(KEY_PLATFORM, platform);
-	}
 }

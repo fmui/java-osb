@@ -21,10 +21,10 @@ import java.util.Map;
 public class FakeService {
 
 	private Map<String, FakeServiceInstance> instances = new HashMap<>();
-	private int provisioningDelay;
+	private int delay;
 
-	public FakeService(int provisoningDelay) {
-		this.provisioningDelay = provisoningDelay;
+	public FakeService(int delay) {
+		this.delay = delay;
 	}
 
 	public synchronized void addServiceInstance(FakeServiceInstance instance) {
@@ -47,7 +47,7 @@ public class FakeService {
 		return instances.remove(instanceID) != null;
 	}
 
-	public int getProvisoningDelay() {
-		return provisioningDelay;
+	public int getDelay() {
+		return delay;
 	}
 }

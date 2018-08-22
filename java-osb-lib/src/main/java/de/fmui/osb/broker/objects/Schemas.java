@@ -17,14 +17,28 @@ package de.fmui.osb.broker.objects;
 
 import de.fmui.osb.broker.json.JSONObject;
 
+@KeyMapping(jsonKey = "service_instance", osbClass = ServiceInstanceSchema.class)
+@KeyMapping(jsonKey = "service_binding", osbClass = ServiceBindingSchema.class)
 public class Schemas extends AbstractOpenServiceBrokerObject implements JSONObject {
 
 	private static final long serialVersionUID = 1L;
 
-	// TODO
+	public final static String KEY_SERVICE_INSTANCE = "service_instance";
+	public final static String KEY_SERVICE_BINDING = "service_binding";
 
-	@Override
-	public void validate() {
-		// nothing to do
+	public ServiceInstanceSchema getServiceInstanceSchema() {
+		return get(KEY_SERVICE_INSTANCE, ServiceInstanceSchema.class);
+	}
+
+	public void setServiceInstanceSchema(ServiceInstanceSchema schema) {
+		put(KEY_SERVICE_INSTANCE, schema);
+	}
+
+	public ServiceBindingSchema getServiceBindingSchema() {
+		return get(KEY_SERVICE_BINDING, ServiceBindingSchema.class);
+	}
+
+	public void setServiceBindingSchema(ServiceBindingSchema schema) {
+		put(KEY_SERVICE_BINDING, schema);
 	}
 }

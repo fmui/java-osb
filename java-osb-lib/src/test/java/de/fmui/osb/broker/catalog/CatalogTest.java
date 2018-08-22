@@ -121,6 +121,12 @@ public class CatalogTest {
 		service.setDescription("desc-1");
 		service.setBindable(true);
 
+		Plan plan = new Plan();
+		plan.setID("id-1");
+		plan.setName("name-1");
+		plan.setDescription("desc-1");
+		service.addPlan(plan);
+
 		assertValidating(service);
 
 		service.setTags("tag-1", "tag-2", "tag-3");
@@ -153,7 +159,7 @@ public class CatalogTest {
 
 		service.setName("my-name");
 		assertTrue(service.isValidName(Service.KEY_NAME));
-		
+
 		service.setName("my.name");
 		assertTrue(service.isValidName(Service.KEY_NAME));
 

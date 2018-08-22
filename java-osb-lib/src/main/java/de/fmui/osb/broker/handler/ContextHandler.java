@@ -13,25 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-package de.fmui.osb.broker;
+package de.fmui.osb.broker.handler;
 
-import javax.servlet.http.HttpServletRequest;
+import de.fmui.osb.broker.objects.Context;
 
 /**
- * Request credentials.
+ * Converter for {@link Context} objects.
  */
-public class RequestCredentials {
-
-	private HttpServletRequest request;
-
-	RequestCredentials(HttpServletRequest request) {
-		this.request = request;
-	}
+public interface ContextHandler {
 
 	/**
-	 * Returns the HTTP request object.
+	 * Converts a {@link Context} object into a more specific {@link Context}
+	 * object.
 	 */
-	public HttpServletRequest getHttpServletRequest() {
-		return request;
-	}
+	Context convertContext(Context context);
 }

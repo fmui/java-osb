@@ -36,7 +36,6 @@ import de.fmui.osb.broker.exceptions.BadRequestException;
 import de.fmui.osb.broker.exceptions.ConflictException;
 import de.fmui.osb.broker.exceptions.GoneException;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
-import de.fmui.osb.broker.handler.ErrorLogHandler;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
@@ -48,9 +47,10 @@ import de.fmui.osb.broker.instance.ProvisionResponse;
 import de.fmui.osb.broker.instance.ProvisionResponseBody;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceRequest;
 import de.fmui.osb.broker.instance.UpdateServiceInstanceResponse;
+import de.fmui.osb.broker.instance.UpdateServiceInstanceResponseBody;
 import de.fmui.osb.broker.objects.Credentials;
 
-public class SyncBrokerExampleHandler implements OpenServiceBrokerHandler, ErrorLogHandler {
+public class SyncBrokerExampleHandler implements OpenServiceBrokerHandler {
 
 	private FakeService fakeService;
 	private CatalogResponseBody catalog;
@@ -124,7 +124,13 @@ public class SyncBrokerExampleHandler implements OpenServiceBrokerHandler, Error
 			throw new BadRequestException("Unknown instance.");
 		}
 
-		return null;
+		// update the instance
+		existingInstance.update(request);
+
+		// send empty response
+		UpdateServiceInstanceResponseBody body = new UpdateServiceInstanceResponseBody();
+
+		return UpdateServiceInstanceResponse.builder().ok().body(body).build();
 	}
 
 	@Override
@@ -221,8 +227,4 @@ public class SyncBrokerExampleHandler implements OpenServiceBrokerHandler, Error
 		}
 	}
 
-	@Override
-	public void logError(String message, Object... args) {
-		BrokerUtils.logError(message, args);
-	}
 }

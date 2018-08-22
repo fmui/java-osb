@@ -13,25 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-package de.fmui.osb.broker;
+package de.fmui.osb.broker.objects;
 
-import javax.servlet.http.HttpServletRequest;
+import de.fmui.osb.broker.json.JSONObject;
 
-/**
- * Request credentials.
- */
-public class RequestCredentials {
+@KeyMapping(jsonKey = "parameters", osbClass = SchemaParameters.class)
+public class Schema extends AbstractOpenServiceBrokerObject implements JSONObject {
 
-	private HttpServletRequest request;
+	private static final long serialVersionUID = 1L;
 
-	RequestCredentials(HttpServletRequest request) {
-		this.request = request;
+	public final static String KEY_PARAMETERS = "parameters";
+
+	public SchemaParameters getParameters() {
+		return get(KEY_PARAMETERS, SchemaParameters.class);
 	}
 
-	/**
-	 * Returns the HTTP request object.
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		return request;
+	public void setParameters(SchemaParameters parameters) {
+		put(KEY_PARAMETERS, parameters);
 	}
 }

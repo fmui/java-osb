@@ -35,6 +35,10 @@ public class UnbindResponse extends OpenServiceBrokerResponse {
 			return this;
 		}
 
+		public UnbindResponseBuilder async(boolean async) {
+			return async ? accepted() : ok();
+		}
+
 		public UnbindResponseBuilder ok() {
 			statusCode = 200;
 			body = new UnbindResponseBody();

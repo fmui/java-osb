@@ -13,25 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-package de.fmui.osb.broker;
+package de.fmui.osb.broker.objects;
 
-import javax.servlet.http.HttpServletRequest;
+public class KubernetesContext extends Context {
 
-/**
- * Request credentials.
- */
-public class RequestCredentials {
+	private static final long serialVersionUID = 1L;
 
-	private HttpServletRequest request;
+	public static final String KEY_CLUSTER_ID = "clusterid";
+	public static final String KEY_NAMESPACE = "namespace";
 
-	RequestCredentials(HttpServletRequest request) {
-		this.request = request;
+	public KubernetesContext() {
 	}
 
-	/**
-	 * Returns the HTTP request object.
-	 */
-	public HttpServletRequest getHttpServletRequest() {
-		return request;
+	public KubernetesContext(Context context) {
+		putAll(context);
+	}
+
+	public String getClusterID() {
+		return getString(KEY_CLUSTER_ID);
+	}
+
+	public String getNamespace() {
+		return getString(KEY_NAMESPACE);
 	}
 }

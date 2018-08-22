@@ -15,15 +15,27 @@
  */
 package de.fmui.osb.broker.objects;
 
+import de.fmui.osb.broker.exceptions.ValidationException;
 import de.fmui.osb.broker.json.JSONObject;
 
-public class DashboardClient extends AbstractOpenServiceBrokerObject implements JSONObject {
+public class SchemaParameters extends AbstractOpenServiceBrokerObject implements JSONObject {
 
 	private static final long serialVersionUID = 1L;
 
-	public final static String KEY_ID = "id";
-	public final static String KEY_SECRET = "secret";
-	public final static String KEY_REDIRECT_URI = "redirect_uri";
+	public final static String KEY_SCHEMA_DECLARATION = "$schema";
 
-	// TODO
+	public String getSchemaDeclaration() {
+		return getString(KEY_SCHEMA_DECLARATION);
+	}
+
+	public void setSchemaDeclaration(String urn) {
+		put(KEY_SCHEMA_DECLARATION, urn);
+	}
+
+	@Override
+	public void validate() throws ValidationException {
+		if (isNullOrEmpty(KEY_SCHEMA_DECLARATION)) {
+			throw new ValidationException("Invalid or missing schema declaration!");
+		}
+	}
 }

@@ -76,6 +76,16 @@ public class RequestsTest {
 	}
 
 	@Test
+	public void testBindResponses() {
+		BindResponseBody body = new BindResponseBody();
+
+		assertEquals(200, BindResponse.builder().ok().body(body).build().getStatusCode());
+		assertEquals(200, BindResponse.builder().async(false).body(body).build().getStatusCode());
+		assertEquals(202, BindResponse.builder().accepted().body(body).build().getStatusCode());
+		assertEquals(202, BindResponse.builder().async(true).body(body).build().getStatusCode());
+	}
+
+	@Test
 	public void testUnbindRequest() throws Exception {
 		String instanceID = "123-456-78";
 		String bindingID = "abc-xyz";
@@ -110,5 +120,15 @@ public class RequestsTest {
 
 		// check status code
 		assertEquals(200, response.getStatus());
+	}
+
+	@Test
+	public void testUnbindResponses() {
+		UnbindResponseBody body = new UnbindResponseBody();
+
+		assertEquals(200, UnbindResponse.builder().ok().body(body).build().getStatusCode());
+		assertEquals(200, UnbindResponse.builder().async(false).body(body).build().getStatusCode());
+		assertEquals(202, UnbindResponse.builder().accepted().body(body).build().getStatusCode());
+		assertEquals(202, UnbindResponse.builder().async(true).body(body).build().getStatusCode());
 	}
 }

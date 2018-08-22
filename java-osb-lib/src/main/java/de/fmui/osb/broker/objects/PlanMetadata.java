@@ -24,10 +24,4 @@ public class PlanMetadata extends AbstractOpenServiceBrokerObject implements JSO
 	public final static String KEY_BULLETS = "bullets";
 	public final static String KEY_COSTS = "costs";
 	public final static String KEY_DISPLAY_NAME = "displayName";
-
-	@Override
-	public void validate() {
-		// there is only a convention for metadata fields, no specification -> nothing
-		// to do
-	}
 }

@@ -19,6 +19,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ import de.fmui.osb.broker.exceptions.BadRequestException;
 import de.fmui.osb.broker.exceptions.InvalidBrokerAPIVersionHeader;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
 import de.fmui.osb.broker.exceptions.ValidationException;
+import de.fmui.osb.broker.handler.ContextHandler;
 import de.fmui.osb.broker.handler.ErrorLogHandler;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
@@ -46,17 +48,65 @@ import de.fmui.osb.broker.internal.io.IOUtils;
 import de.fmui.osb.broker.internal.json.parser.JSONParseException;
 import de.fmui.osb.broker.internal.json.parser.JSONParser;
 import de.fmui.osb.broker.json.JSONObject;
+import de.fmui.osb.broker.objects.Context;
 import de.fmui.osb.broker.objects.Validatable;
 
 public class OpenServiceBroker {
 
 	private BrokerAPIVersion brokerAPIMinVersion = new BrokerAPIVersion("2.4");
+	private ErrorLogHandler errorLogHandler = new DefaultErrorLogHandler();
+	private ContextHandler contextHandler = new DefaultContextHandler();
 
 	/**
 	 * Sets the minimum Broker API Version that this broker requires.
+	 * 
+	 * @param version
+	 *            the Broker API Version as a string
 	 */
 	public synchronized void setBrokerAPIMinVersion(String version) {
 		brokerAPIMinVersion = new BrokerAPIVersion(version);
+	}
+
+	/**
+	 * Gets the minimum Broker API Version that this configured for this broker.
+	 */
+	public synchronized BrokerAPIVersion getBrokerAPIMinVersion() {
+		return brokerAPIMinVersion;
+	}
+
+	/**
+	 * Sets a new error handler.
+	 * 
+	 * @param errorLogHandler
+	 *            the error handler or {@code null} if errors shouldn't be logged
+	 */
+	public synchronized void setErrorLogHandler(ErrorLogHandler errorLogHandler) {
+		this.errorLogHandler = errorLogHandler;
+	}
+
+	/**
+	 * Gets the current error log handler.
+	 */
+	public synchronized ErrorLogHandler getErrorLogHandler() {
+		return errorLogHandler;
+	}
+
+	/**
+	 * Sets a new context handler.
+	 * 
+	 * @param contextHandler
+	 *            the context handler or {@code null} if context objects shouldn't
+	 *            be converted
+	 */
+	public synchronized void setContextHandler(ContextHandler contextHandler) {
+		this.contextHandler = contextHandler;
+	}
+
+	/**
+	 * Gets the current contextHandler log handler.
+	 */
+	public synchronized ContextHandler getContextHandler() {
+		return contextHandler;
 	}
 
 	/**
@@ -161,8 +211,8 @@ public class OpenServiceBroker {
 
 			if (osbResponse == null || osbResponse.getStatusCode() < 200 || osbResponse.getStatusCode() > 299) {
 				// handler did not return a valid response
-				if (handler instanceof ErrorLogHandler) {
-					((ErrorLogHandler) handler).logError("No OSB response.");
+				if (errorLogHandler != null) {
+					errorLogHandler.logError("No OSB response.");
 				}
 				throw new OpenServiceBrokerException(500, "InternalError", "Processing error");
 			}
@@ -174,8 +224,8 @@ public class OpenServiceBroker {
 			HttpUtils.sendError(response, new BadRequestException(ve.toString(), ve));
 		} catch (Exception e) {
 			// handle all other exceptions and return a generic error
-			if (handler instanceof ErrorLogHandler) {
-				((ErrorLogHandler) handler).logError("Could not process OSB request: " + e.getMessage(), e);
+			if (errorLogHandler != null) {
+				errorLogHandler.logError("Could not process OSB request: " + e.getMessage(), e);
 			}
 
 			OpenServiceBrokerException error = new OpenServiceBrokerException(500, "InternalError", "Processing error",
@@ -341,7 +391,7 @@ public class OpenServiceBroker {
 		return null;
 	}
 
-	protected <T> T parseBody(HttpServletRequest request, T root)
+	protected <T extends Map<String, Object>> T parseBody(HttpServletRequest request, T root)
 			throws OpenServiceBrokerException, ValidationException {
 		if (request.getMethod().equals("PUT") || request.getMethod().equals("PATCH")) {
 			// check content type
@@ -367,8 +417,14 @@ public class OpenServiceBroker {
 				IOUtils.closeQuietly(in);
 			}
 
+			// validate input
 			if (root instanceof Validatable) {
 				((Validatable) root).validate();
+			}
+
+			// convert context if there is one present
+			if (contextHandler != null && root.get("context") instanceof Context) {
+				root.put("context", contextHandler.convertContext((Context) root.get("context")));
 			}
 
 			return root;
