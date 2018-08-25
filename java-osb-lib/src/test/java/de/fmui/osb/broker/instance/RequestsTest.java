@@ -63,7 +63,7 @@ public class RequestsTest {
 				assertFalse(request.isAcceptsIncomplete());
 
 				ProvisionResponseBody body = new ProvisionResponseBody();
-				body.setDashboardURL("http://example-dashboard.example.com/9189kdfsk0vfnku");
+				body.setDashboardURL(dashboardURL);
 
 				return ProvisionResponse.builder().created().body(body).build();
 			}
@@ -85,6 +85,48 @@ public class RequestsTest {
 		assertEquals(200, ProvisionResponse.builder().async(false).body(body).build().getStatusCode());
 		assertEquals(202, ProvisionResponse.builder().accepted().body(body).build().getStatusCode());
 		assertEquals(202, ProvisionResponse.builder().async(true).body(body).build().getStatusCode());
+	}
+
+	@Test
+	public void testFetchInstanceRequest() throws Exception {
+		String instanceID = "123-456-78";
+		String dashboardURL = "http://example-dashboard.example.com/9189kdfsk0vfnku";
+
+		// prepare request and response object
+		HttpServletRequest request = MockFactory.createHttpServletRequest("GET", "/v2/service_instances/" + instanceID);
+
+		StringWriter stringWriter = new StringWriter();
+		HttpServletResponse response = MockFactory.createHttpServletResponse(stringWriter);
+
+		// run
+		OpenServiceBroker osb = new OpenServiceBroker();
+		osb.processRequest(request, response, new AbstractTestHandler() {
+			@Override
+			public FetchInstanceResponse fetchServiceInstance(FetchInstanceRequest request)
+					throws OpenServiceBrokerException {
+				assertEquals(instanceID, request.getInstanceID());
+				assertNull(request.getRequestBody());
+
+				FetchInstanceResponseBody body = new FetchInstanceResponseBody();
+				body.setDashboardURL(dashboardURL);
+
+				return FetchInstanceResponse.builder().ok().body(body).build();
+			}
+		});
+
+		// check status code
+		assertEquals(200, response.getStatus());
+
+		// check body
+		JSONObject responseBody = JSONHelper.parse(stringWriter.toString());
+		assertEquals(dashboardURL, responseBody.get("dashboard_url"));
+	}
+
+	@Test
+	public void testFetchInstanceResponses() {
+		FetchInstanceResponseBody body = new FetchInstanceResponseBody();
+
+		assertEquals(200, FetchInstanceResponse.builder().ok().body(body).build().getStatusCode());
 	}
 
 	@Test
@@ -224,7 +266,7 @@ public class RequestsTest {
 		assertEquals(202, UpdateServiceInstanceResponse.builder().accepted().body(body).build().getStatusCode());
 		assertEquals(202, UpdateServiceInstanceResponse.builder().async(true).body(body).build().getStatusCode());
 	}
-	
+
 	@Test
 	public void testLastOperationRequest() throws Exception {
 		String instanceID = "123-456-78";

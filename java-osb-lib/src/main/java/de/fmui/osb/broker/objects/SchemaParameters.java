@@ -16,6 +16,7 @@
 package de.fmui.osb.broker.objects;
 
 import de.fmui.osb.broker.exceptions.ValidationException;
+import de.fmui.osb.broker.internal.json.JSONObjectImpl;
 import de.fmui.osb.broker.json.JSONObject;
 
 public class SchemaParameters extends AbstractOpenServiceBrokerObject implements JSONObject {
@@ -23,6 +24,10 @@ public class SchemaParameters extends AbstractOpenServiceBrokerObject implements
 	private static final long serialVersionUID = 1L;
 
 	public final static String KEY_SCHEMA_DECLARATION = "$schema";
+	public final static String KEY_TYPE = "type";
+	public final static String KEY_PROPERTIES = "properties";
+
+	public final static String JSON_SCHEMA_DRAFT_V4 = "http://json-schema.org/draft-04/schema#";
 
 	public String getSchemaDeclaration() {
 		return getString(KEY_SCHEMA_DECLARATION);
@@ -30,6 +35,44 @@ public class SchemaParameters extends AbstractOpenServiceBrokerObject implements
 
 	public void setSchemaDeclaration(String urn) {
 		put(KEY_SCHEMA_DECLARATION, urn);
+	}
+
+	public String getType() {
+		return getString(KEY_TYPE);
+	}
+
+	public void setType(String type) {
+		put(KEY_TYPE, type);
+	}
+
+	public JSONObject getProperties() {
+		return getJSONObject(KEY_PROPERTIES);
+	}
+
+	public void setProperties(JSONObject properties) {
+		put(KEY_PROPERTIES, properties);
+	}
+
+	public JSONObject addProperty(String name) {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Invalid property name!");
+		}
+
+		JSONObject properties = getProperties();
+		if (properties == null) {
+			properties = createObject(KEY_PROPERTIES);
+		}
+
+		JSONObject property = new JSONObjectImpl();
+		properties.put(name, property);
+
+		return property;
+	}
+
+	public void setDefaults() {
+		setSchemaDeclaration(JSON_SCHEMA_DRAFT_V4);
+		setType("object");
+		createObject(KEY_PROPERTIES);
 	}
 
 	@Override

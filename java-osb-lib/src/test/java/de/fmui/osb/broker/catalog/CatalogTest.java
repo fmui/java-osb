@@ -38,7 +38,10 @@ import de.fmui.osb.broker.helpers.JSONHelper;
 import de.fmui.osb.broker.helpers.MockFactory;
 import de.fmui.osb.broker.json.JSONObject;
 import de.fmui.osb.broker.objects.Plan;
+import de.fmui.osb.broker.objects.PlanMetadata;
+import de.fmui.osb.broker.objects.SchemaParameters;
 import de.fmui.osb.broker.objects.Service;
+import de.fmui.osb.broker.objects.ServiceMetadata;
 
 public class CatalogTest {
 
@@ -134,6 +137,19 @@ public class CatalogTest {
 
 		service.addTag("tag-4", "tag-5");
 		assertEquals(5, service.getTags().size());
+
+		service.setRequires(Service.REQUIRES_ROUTE_FORWARDING, Service.REQUIRES_SYSLOG_DRAIN);
+		assertEquals(2, service.getRequires().size());
+
+		service.addRequires(Service.REQUIRES_VOLUME_MOUNT);
+		assertEquals(3, service.getRequires().size());
+
+		ServiceMetadata metadata = new ServiceMetadata();
+		metadata.setDisplayName("my-name");
+		metadata.put("some-key", "some-value");
+		service.setMetadata(metadata);
+		assertEquals("my-name", metadata.getDisplayName());
+		assertEquals("some-value", metadata.get("some-key"));
 	}
 
 	@Test
@@ -184,5 +200,56 @@ public class CatalogTest {
 		plan.setDescription("desc-1");
 
 		assertValidating(plan);
+
+		PlanMetadata metadata = new PlanMetadata();
+		metadata.setDisplayName("my-name");
+		metadata.setBullets("a", "b", "c");
+		plan.setMetadata(metadata);
+		assertEquals("my-name", plan.getMetadata().getDisplayName());
+		assertTrue(plan.getMetadata().getBullets().contains("b"));
+	}
+
+	@Test
+	public void testSchemaObjects() throws Exception {
+		Plan plan = new Plan();
+
+		// instance create
+		SchemaParameters instanceCreateSchema = new SchemaParameters();
+		instanceCreateSchema.setDefaults();
+
+		JSONObject prop1 = instanceCreateSchema.addProperty("prop1");
+		prop1.put("type", "string");
+		prop1.put("description", "Some string.");
+
+		plan.setServiceInstanceCreateSchema(instanceCreateSchema);
+
+		assertEquals(prop1.get("type"), ((JSONObject) plan.getSchemas().getServiceInstanceSchema().getCreateSchema()
+				.getParameters().getProperties().get("prop1")).get("type"));
+
+		// instance update
+		SchemaParameters instanceUpdateSchema = new SchemaParameters();
+		instanceUpdateSchema.setDefaults();
+
+		JSONObject prop2 = instanceUpdateSchema.addProperty("prop2");
+		prop2.put("type", "integer");
+		prop2.put("description", "A number.");
+
+		plan.setServiceInstanceUpdateSchema(instanceUpdateSchema);
+
+		assertEquals(prop2.get("type"), ((JSONObject) plan.getSchemas().getServiceInstanceSchema().getUpdateSchema()
+				.getParameters().getProperties().get("prop2")).get("type"));
+
+		// binding create
+		SchemaParameters bindingCreateSchema = new SchemaParameters();
+		bindingCreateSchema.setDefaults();
+
+		JSONObject prop3 = bindingCreateSchema.addProperty("prop3");
+		prop3.put("type", "object");
+		prop3.put("description", "A thing.");
+
+		plan.setServiceBindingCreateSchema(bindingCreateSchema);
+
+		assertEquals(prop3.get("type"), ((JSONObject) plan.getSchemas().getServiceBindingSchema().getCreateSchema()
+				.getParameters().getProperties().get("prop3")).get("type"));
 	}
 }

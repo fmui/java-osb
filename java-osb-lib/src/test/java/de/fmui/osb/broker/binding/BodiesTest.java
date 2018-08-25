@@ -22,7 +22,12 @@ import java.io.Reader;
 
 import org.junit.Test;
 
+import de.fmui.osb.broker.State;
 import de.fmui.osb.broker.helpers.JSONHelper;
+import de.fmui.osb.broker.objects.Credentials;
+import de.fmui.osb.broker.objects.Device;
+import de.fmui.osb.broker.objects.Parameters;
+import de.fmui.osb.broker.objects.VolumeMount;
 
 public class BodiesTest {
 
@@ -50,6 +55,34 @@ public class BodiesTest {
 	}
 
 	@Test
+	public void testFetchBindingResponseBody() throws Exception {
+		FetchBindingResponseBody body = new FetchBindingResponseBody();
+
+		Credentials credentials = new Credentials();
+		credentials.put("cred-key", "cred-value");
+		body.setCredentials(credentials);
+		assertEquals("cred-value", body.getCredentials().get("cred-key"));
+
+		VolumeMount volumeMount = new VolumeMount();
+		volumeMount.setDriver("my-driver");
+		volumeMount.setContainerDir("my-dir");
+		volumeMount.setMode("rw");
+		volumeMount.setDeviceType("my-type");
+		Device device = new Device();
+		device.setVolumeID("vol1");
+		volumeMount.setDevice(device);
+		body.addVolumeMount(volumeMount);
+		assertEquals("vol1", body.getVolumeMounts().get(0).getDevice().getVolumeID());
+
+		Parameters parameters = new Parameters();
+		parameters.put("key", "value");
+		body.setParameters(parameters);
+		assertEquals("value", body.getParameters().get("key"));
+
+		body.validate();
+	}
+
+	@Test
 	public void testUnbindResponseBody() throws Exception {
 		UnbindResponseBody body = new UnbindResponseBody();
 
@@ -59,4 +92,16 @@ public class BodiesTest {
 		body.validate();
 	}
 
+	@Test
+	public void testBindingLastOperationResponseBody() throws Exception {
+		BindingLastOperationResponseBody body = new BindingLastOperationResponseBody();
+
+		body.setState(State.IN_PROGRESS);
+		assertEquals(State.IN_PROGRESS, body.getState());
+
+		body.setDescription("desc1");
+		assertEquals("desc1", body.getDescription());
+
+		body.validate();
+	}
 }

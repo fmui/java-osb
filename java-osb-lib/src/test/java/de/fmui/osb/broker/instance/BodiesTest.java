@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import de.fmui.osb.broker.State;
 import de.fmui.osb.broker.helpers.JSONHelper;
+import de.fmui.osb.broker.objects.Parameters;
 
 public class BodiesTest {
 
@@ -97,6 +98,27 @@ public class BodiesTest {
 		assertEquals("org-guid-here", body.getPreviousValues().getOrganizationID());
 		assertEquals("space-guid-here", body.getPreviousValues().getSpaceID());
 
+		body.validate();
+	}
+
+	@Test
+	public void testFetchInstanceResponseBody() throws Exception {
+		FetchInstanceResponseBody body = new FetchInstanceResponseBody();
+
+		body.setServiceID("service1");
+		assertEquals("service1", body.getServiceID());
+
+		body.setPlanID("plan1");
+		assertEquals("plan1", body.getPlanID());
+
+		body.setDashboardURL("http://host/something");
+		assertEquals("http://host/something", body.getDashboardURL());
+
+		Parameters parameters = new Parameters();
+		parameters.put("key", "value");
+		body.setParameters(parameters);
+		assertEquals("value", body.getParameters().get("key"));
+		
 		body.validate();
 	}
 

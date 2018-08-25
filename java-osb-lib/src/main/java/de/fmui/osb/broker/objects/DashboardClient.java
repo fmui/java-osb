@@ -25,5 +25,27 @@ public class DashboardClient extends AbstractOpenServiceBrokerObject implements 
 	public final static String KEY_SECRET = "secret";
 	public final static String KEY_REDIRECT_URI = "redirect_uri";
 
-	// TODO
+	public String getID() {
+		return getString(KEY_ID);
+	}
+
+	public void setID(String id) {
+		put(KEY_ID, id);
+	}
+
+	public String getSecret() {
+		return getString(KEY_SECRET);
+	}
+
+	public void setSecret(String secret) {
+		put(KEY_SECRET, secret);
+	}
+
+	public String getRedirectURI() {
+		return getString(KEY_REDIRECT_URI);
+	}
+
+	public void setRedirectURI(String uri) {
+		put(KEY_REDIRECT_URI, uri);
+	}
 }

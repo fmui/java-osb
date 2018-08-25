@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import de.fmui.osb.broker.binding.BindRequest;
 import de.fmui.osb.broker.binding.BindRequestBody;
+import de.fmui.osb.broker.binding.BindingLastOperationRequest;
+import de.fmui.osb.broker.binding.FetchBindingRequest;
 import de.fmui.osb.broker.binding.UnbindRequest;
 import de.fmui.osb.broker.catalog.CatalogRequest;
 import de.fmui.osb.broker.exceptions.BadRequestException;
@@ -36,6 +38,7 @@ import de.fmui.osb.broker.handler.ContextHandler;
 import de.fmui.osb.broker.handler.ErrorLogHandler;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
+import de.fmui.osb.broker.instance.FetchInstanceRequest;
 import de.fmui.osb.broker.instance.InstanceLastOperationRequest;
 import de.fmui.osb.broker.instance.ProvisionRequest;
 import de.fmui.osb.broker.instance.ProvisionRequestBody;
@@ -144,14 +147,24 @@ public class OpenServiceBroker {
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
 
 				osbResponse = handler.getCatalog((CatalogRequest) osbRequest);
-			} else if (isProvsionRequest(method, path)) {
-				// provison request
+			} else if (isProvisionRequest(method, path)) {
+				// provision request
 				String instanceID = getPathSegment(path, -1);
 
 				osbRequest = new ProvisionRequest(instanceID);
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, new ProvisionRequestBody());
 
 				osbResponse = handler.provision((ProvisionRequest) osbRequest);
+
+			} else if (isInstanceFetchRequest(method, path)) {
+				// fetch instance request
+				String instanceID = getPathSegment(path, -1);
+
+				osbRequest = new FetchInstanceRequest(instanceID);
+				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
+
+				osbResponse = handler.fetchServiceInstance((FetchInstanceRequest) osbRequest);
+
 			} else if (isInstanceUpdateRequest(method, path)) {
 				// update request
 				String instanceID = getPathSegment(path, -1);
@@ -191,6 +204,15 @@ public class OpenServiceBroker {
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, new BindRequestBody());
 
 				osbResponse = handler.bind((BindRequest) osbRequest);
+			} else if (isBindingFetchRequest(method, path)) {
+				// fetch binding request
+				String instanceID = getPathSegment(path, -3);
+				String bindingID = getPathSegment(path, -1);
+
+				osbRequest = new FetchBindingRequest(instanceID, bindingID);
+				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
+
+				osbResponse = handler.fetchServiceBinding((FetchBindingRequest) osbRequest);
 			} else if (isUnbindRequest(method, path)) {
 				// instance last operation request
 				String instanceID = getPathSegment(path, -3);
@@ -202,6 +224,18 @@ public class OpenServiceBroker {
 				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
 
 				osbResponse = handler.unbind((UnbindRequest) osbRequest);
+			} else if (isBindingLastOperationRequest(method, path)) {
+				// instance last operation request
+				String instanceID = getPathSegment(path, -4);
+				String bindingID = getPathSegment(path, -2);
+				String serviceID = request.getParameter("service_id");
+				String planID = request.getParameter("plan_id");
+				String operation = request.getParameter("operation");
+
+				osbRequest = new BindingLastOperationRequest(instanceID, bindingID, serviceID, planID, operation);
+				populateRequestObject(osbRequest, request, brokerAPIVersion, credentials, null);
+
+				osbResponse = handler.getLastOperationForBinding((BindingLastOperationRequest) osbRequest);
 			}
 
 			if (osbRequest == null) {
@@ -241,7 +275,7 @@ public class OpenServiceBroker {
 				"catalog".equals(path[path.length - 1]);
 	}
 
-	protected boolean isProvsionRequest(String method, String[] path) {
+	protected boolean isProvisionRequest(String method, String[] path) {
 		return "PUT".equals(method) && //
 				path.length >= 3 && //
 				"v2".equals(path[path.length - 3]) && //
@@ -293,7 +327,7 @@ public class OpenServiceBroker {
 				"service_bindings".equals(path[path.length - 2]);
 	}
 
-	protected boolean isFetchRequest(String method, String[] path) {
+	protected boolean isBindingFetchRequest(String method, String[] path) {
 		return "GET".equals(method) && //
 				path.length >= 5 && //
 				"v2".equals(path[path.length - 5]) && //

@@ -18,6 +18,10 @@ package de.fmui.osb.broker.helpers;
 import de.fmui.osb.broker.RequestCredentials;
 import de.fmui.osb.broker.binding.BindRequest;
 import de.fmui.osb.broker.binding.BindResponse;
+import de.fmui.osb.broker.binding.BindingLastOperationRequest;
+import de.fmui.osb.broker.binding.BindingLastOperationResponse;
+import de.fmui.osb.broker.binding.FetchBindingRequest;
+import de.fmui.osb.broker.binding.FetchBindingResponse;
 import de.fmui.osb.broker.binding.UnbindRequest;
 import de.fmui.osb.broker.binding.UnbindResponse;
 import de.fmui.osb.broker.catalog.CatalogRequest;
@@ -26,6 +30,8 @@ import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
 import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
+import de.fmui.osb.broker.instance.FetchInstanceRequest;
+import de.fmui.osb.broker.instance.FetchInstanceResponse;
 import de.fmui.osb.broker.instance.InstanceLastOperationRequest;
 import de.fmui.osb.broker.instance.InstanceLastOperationResponse;
 import de.fmui.osb.broker.instance.ProvisionRequest;
@@ -46,6 +52,11 @@ public abstract class AbstractTestHandler implements OpenServiceBrokerHandler {
 
 	@Override
 	public ProvisionResponse provision(ProvisionRequest request) throws OpenServiceBrokerException {
+		return null;
+	}
+
+	@Override
+	public FetchInstanceResponse fetchServiceInstance(FetchInstanceRequest request) throws OpenServiceBrokerException {
 		return null;
 	}
 
@@ -72,7 +83,18 @@ public abstract class AbstractTestHandler implements OpenServiceBrokerHandler {
 	}
 
 	@Override
+	public FetchBindingResponse fetchServiceBinding(FetchBindingRequest request) throws OpenServiceBrokerException {
+		return null;
+	}
+
+	@Override
 	public UnbindResponse unbind(UnbindRequest request) throws OpenServiceBrokerException {
+		return null;
+	}
+
+	@Override
+	public BindingLastOperationResponse getLastOperationForBinding(BindingLastOperationRequest request)
+			throws OpenServiceBrokerException {
 		return null;
 	}
 }

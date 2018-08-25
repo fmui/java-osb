@@ -26,6 +26,20 @@ public class JSONObjectImpl extends LinkedHashMap<String, Object> implements JSO
 
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * Default constructor.
+	 */
+	public JSONObjectImpl() {
+		super();
+	}
+
+	/**
+	 * Constructor with initial values.
+	 */
+	public JSONObjectImpl(Map<String, Object> m) {
+		super(m);
+	}
+
 	@Override
 	public Object put(String key, Object value) {
 		if (key == null) {

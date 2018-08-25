@@ -39,6 +39,10 @@ public class Service extends AbstractOpenServiceBrokerObject implements JSONObje
 	public final static String KEY_PLAN_UPDATEABLE = " plan_updateable";
 	public final static String KEY_PLANS = "plans";
 
+	public final static String REQUIRES_SYSLOG_DRAIN = "syslog_drain";
+	public final static String REQUIRES_ROUTE_FORWARDING = "route_forwarding";
+	public final static String REQUIRES_VOLUME_MOUNT = "volume_mount";
+
 	public String getName() {
 		return getString(KEY_NAME);
 	}

@@ -18,6 +18,7 @@ package de.fmui.osb.broker.objects;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 import de.fmui.osb.broker.exceptions.ValidationException;
 import de.fmui.osb.broker.internal.json.JSONArrayImpl;
@@ -35,6 +36,20 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 	private static final long serialVersionUID = 1L;
 
 	private static final String PATTERN_CLI_NAME = "^[a-zA-Z0-9\\-\\.]*$";
+
+	/**
+	 * Default constructor.
+	 */
+	public AbstractOpenServiceBrokerObject() {
+		super();
+	}
+
+	/**
+	 * Constructor with initial values.
+	 */
+	public AbstractOpenServiceBrokerObject(Map<String, Object> m) {
+		super(m);
+	}
 
 	/**
 	 * Creates and adds a new object.
@@ -155,6 +170,13 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 	 */
 	public Boolean getBoolean(String key) {
 		return get(key, Boolean.class);
+	}
+
+	/**
+	 * Gets and casts a value of a field to a {@link JSONObject}.
+	 */
+	public JSONObject getJSONObject(String key) {
+		return get(key, JSONObject.class);
 	}
 
 	public boolean isNullOrEmpty(String key) {

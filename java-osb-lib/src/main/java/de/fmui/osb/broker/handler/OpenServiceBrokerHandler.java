@@ -18,6 +18,10 @@ package de.fmui.osb.broker.handler;
 import de.fmui.osb.broker.RequestCredentials;
 import de.fmui.osb.broker.binding.BindRequest;
 import de.fmui.osb.broker.binding.BindResponse;
+import de.fmui.osb.broker.binding.BindingLastOperationRequest;
+import de.fmui.osb.broker.binding.BindingLastOperationResponse;
+import de.fmui.osb.broker.binding.FetchBindingRequest;
+import de.fmui.osb.broker.binding.FetchBindingResponse;
 import de.fmui.osb.broker.binding.UnbindRequest;
 import de.fmui.osb.broker.binding.UnbindResponse;
 import de.fmui.osb.broker.catalog.CatalogRequest;
@@ -25,6 +29,8 @@ import de.fmui.osb.broker.catalog.CatalogResponse;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
+import de.fmui.osb.broker.instance.FetchInstanceRequest;
+import de.fmui.osb.broker.instance.FetchInstanceResponse;
 import de.fmui.osb.broker.instance.InstanceLastOperationRequest;
 import de.fmui.osb.broker.instance.InstanceLastOperationResponse;
 import de.fmui.osb.broker.instance.ProvisionRequest;
@@ -53,6 +59,11 @@ public interface OpenServiceBrokerHandler {
 	ProvisionResponse provision(ProvisionRequest request) throws OpenServiceBrokerException;
 
 	/**
+	 * Handles a fetch instance request.
+	 */
+	FetchInstanceResponse fetchServiceInstance(FetchInstanceRequest request) throws OpenServiceBrokerException;
+
+	/**
 	 * Handles an update request.
 	 */
 	UpdateServiceInstanceResponse update(UpdateServiceInstanceRequest request) throws OpenServiceBrokerException;
@@ -74,7 +85,19 @@ public interface OpenServiceBrokerHandler {
 	BindResponse bind(BindRequest request) throws OpenServiceBrokerException;
 
 	/**
+	 * Handles a fetch binding request.
+	 */
+	FetchBindingResponse fetchServiceBinding(FetchBindingRequest request) throws OpenServiceBrokerException;
+
+	/**
 	 * Handles an unbind request.
 	 */
 	UnbindResponse unbind(UnbindRequest request) throws OpenServiceBrokerException;
+
+	/**
+	 * Handles an last operation request for service bindings.
+	 */
+	BindingLastOperationResponse getLastOperationForBinding(BindingLastOperationRequest request)
+			throws OpenServiceBrokerException;
+
 }

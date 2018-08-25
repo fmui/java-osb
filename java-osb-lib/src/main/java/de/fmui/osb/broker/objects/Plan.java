@@ -88,6 +88,72 @@ public class Plan extends AbstractOpenServiceBrokerObject implements JSONObject 
 		put(KEY_SCHEMAS, schemas);
 	}
 
+	public void setServiceInstanceCreateSchema(SchemaParameters schemaParameters) {
+		Schemas schemas = getSchemas();
+		if (schemas == null) {
+			schemas = new Schemas();
+			setSchemas(schemas);
+		}
+
+		ServiceInstanceSchema serviceInstanceSchema = schemas.getServiceInstanceSchema();
+		if (serviceInstanceSchema == null) {
+			serviceInstanceSchema = new ServiceInstanceSchema();
+			schemas.setServiceInstanceSchema(serviceInstanceSchema);
+		}
+
+		Schema schema = serviceInstanceSchema.getCreateSchema();
+		if (schema == null) {
+			schema = new Schema();
+			serviceInstanceSchema.setCreateSchema(schema);
+		}
+
+		schema.setParameters(schemaParameters);
+	}
+
+	public void setServiceInstanceUpdateSchema(SchemaParameters schemaParameters) {
+		Schemas schemas = getSchemas();
+		if (schemas == null) {
+			schemas = new Schemas();
+			setSchemas(schemas);
+		}
+
+		ServiceInstanceSchema serviceInstanceSchema = schemas.getServiceInstanceSchema();
+		if (serviceInstanceSchema == null) {
+			serviceInstanceSchema = new ServiceInstanceSchema();
+			schemas.setServiceInstanceSchema(serviceInstanceSchema);
+		}
+
+		Schema schema = serviceInstanceSchema.getUpdateSchema();
+		if (schema == null) {
+			schema = new Schema();
+			serviceInstanceSchema.setUpdateSchema(schema);
+		}
+
+		schema.setParameters(schemaParameters);
+	}
+
+	public void setServiceBindingCreateSchema(SchemaParameters schemaParameters) {
+		Schemas schemas = getSchemas();
+		if (schemas == null) {
+			schemas = new Schemas();
+			setSchemas(schemas);
+		}
+
+		ServiceBindingSchema serviceBindingSchema = schemas.getServiceBindingSchema();
+		if (serviceBindingSchema == null) {
+			serviceBindingSchema = new ServiceBindingSchema();
+			schemas.setServiceBindingSchema(serviceBindingSchema);
+		}
+
+		Schema schema = serviceBindingSchema.getCreateSchema();
+		if (schema == null) {
+			schema = new Schema();
+			serviceBindingSchema.setCreateSchema(schema);
+		}
+
+		schema.setParameters(schemaParameters);
+	}
+
 	@Override
 	public void validate() throws ValidationException {
 		if (!isValidName(KEY_NAME)) {

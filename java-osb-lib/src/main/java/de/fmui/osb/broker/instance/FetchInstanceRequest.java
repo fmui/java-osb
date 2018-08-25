@@ -13,28 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License. 
  */
-package de.fmui.osb.broker.objects;
+package de.fmui.osb.broker.instance;
 
-import java.util.Map;
+import de.fmui.osb.broker.OpenServiceBrokerRequest;
 
-import de.fmui.osb.broker.json.JSONObject;
+public class FetchInstanceRequest extends OpenServiceBrokerRequest {
 
-public class Parameters extends AbstractOpenServiceBrokerObject implements JSONObject {
+	private String instanceID;
 
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * Default constructor.
-	 */
-	public Parameters() {
-		super();
+	public FetchInstanceRequest(String instanceID) {
+		this.instanceID = instanceID;
 	}
 
 	/**
-	 * Constructor with initial values.
+	 * Returns the instance ID.
 	 */
-	public Parameters(Map<String, Object> m) {
-		super(m);
+	public String getInstanceID() {
+		return instanceID;
 	}
-
 }

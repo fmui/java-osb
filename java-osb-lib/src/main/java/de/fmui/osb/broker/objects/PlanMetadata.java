@@ -15,6 +15,7 @@
  */
 package de.fmui.osb.broker.objects;
 
+import de.fmui.osb.broker.json.JSONArray;
 import de.fmui.osb.broker.json.JSONObject;
 
 public class PlanMetadata extends AbstractOpenServiceBrokerObject implements JSONObject {
@@ -24,4 +25,36 @@ public class PlanMetadata extends AbstractOpenServiceBrokerObject implements JSO
 	public final static String KEY_BULLETS = "bullets";
 	public final static String KEY_COSTS = "costs";
 	public final static String KEY_DISPLAY_NAME = "displayName";
+
+	public JSONArray<String> getBullets() {
+		return getArray(KEY_BULLETS, String.class);
+	}
+
+	public void setBullets(String... bullets) {
+		createArray(KEY_BULLETS, String.class, bullets);
+	}
+
+	public void addBullet(String... bullet) {
+		addToArray(KEY_BULLETS, String.class, bullet);
+	}
+
+	public JSONArray<JSONObject> getCosts() {
+		return getArray(KEY_COSTS, JSONObject.class);
+	}
+
+	public void setCosts(JSONObject... costs) {
+		createArray(KEY_COSTS, JSONObject.class, costs);
+	}
+
+	public void addCost(JSONObject... cost) {
+		addToArray(KEY_COSTS, JSONObject.class, cost);
+	}
+
+	public String getDisplayName() {
+		return getString(KEY_DISPLAY_NAME);
+	}
+
+	public void setDisplayName(String name) {
+		put(KEY_DISPLAY_NAME, name);
+	}
 }

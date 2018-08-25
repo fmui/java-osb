@@ -41,6 +41,9 @@ public class BindRequestBody extends AbstractOpenServiceBrokerObject implements 
 		return get(KEY_CONTEXT, Context.class);
 	}
 
+	/**
+	 * Returns the service ID.
+	 */
 	public String getServiceID() {
 		return getString(KEY_SERVICE_ID);
 	}
@@ -52,15 +55,26 @@ public class BindRequestBody extends AbstractOpenServiceBrokerObject implements 
 		return getString(KEY_PLAN_ID);
 	}
 
+	/**
+	 * Returns the app GUID.
+	 * 
+	 * @deprecated see {@link BindResource}
+	 */
 	@Deprecated
 	public String getAppGUID() {
 		return getString(KEY_APP_GUID);
 	}
 
+	/**
+	 * Returns the bind resource.
+	 */
 	public BindResource getBindResource() {
 		return get(KEY_BIND_RESOURCE, BindResource.class);
 	}
 
+	/**
+	 * Returns the configuration parameters.
+	 */
 	public Parameters getParameters() {
 		return get(KEY_PARAMETERS, Parameters.class);
 	}

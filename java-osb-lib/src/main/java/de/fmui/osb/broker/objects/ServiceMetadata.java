@@ -28,9 +28,51 @@ public class ServiceMetadata extends AbstractOpenServiceBrokerObject implements 
 	public final static String KEY_DOCUMENTATION_URL = "documentationUrl";
 	public final static String KEY_SUPPORT_URL = "supportUrl";
 
-	@Override
-	public void validate() {
-		// there is only a convention for metadata fields, no specification -> nothing
-		// to do
+	public String getDisplayName() {
+		return getString(KEY_DISPLAY_NAME);
+	}
+
+	public void setDisplayName(String name) {
+		put(KEY_DISPLAY_NAME, name);
+	}
+
+	public String getImageURL() {
+		return getString(KEY_IMAGE_URL);
+	}
+
+	public void setImageURL(String url) {
+		put(KEY_IMAGE_URL, url);
+	}
+
+	public String getLongDescription() {
+		return getString(KEY_LONG_DESCRIPTION);
+	}
+
+	public void setLongDescription(String description) {
+		put(KEY_LONG_DESCRIPTION, description);
+	}
+
+	public String getProviderDisplayName() {
+		return getString(KEY_PROVIDER_DISPLAY_NAME);
+	}
+
+	public void setProviderDisplayName(String description) {
+		put(KEY_PROVIDER_DISPLAY_NAME, description);
+	}
+
+	public String getDocumentationURL() {
+		return getString(KEY_DOCUMENTATION_URL);
+	}
+
+	public void setDocumentationURL(String url) {
+		put(KEY_DOCUMENTATION_URL, url);
+	}
+
+	public String getSupportURL() {
+		return getString(KEY_SUPPORT_URL);
+	}
+
+	public void setSupportURL(String url) {
+		put(KEY_SUPPORT_URL, url);
 	}
 }
