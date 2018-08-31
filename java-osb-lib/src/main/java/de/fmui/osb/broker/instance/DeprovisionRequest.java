@@ -31,6 +31,8 @@ public class DeprovisionRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the instance ID.
+	 * 
+	 * @return the service instance ID
 	 */
 	public String getInstanceID() {
 		return instanceID;
@@ -38,6 +40,8 @@ public class DeprovisionRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the service ID.
+	 * 
+	 * @return the service ID
 	 */
 	public String getServiceID() {
 		return serviceID;
@@ -45,6 +49,8 @@ public class DeprovisionRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the plan ID.
+	 * 
+	 * @return the plan ID
 	 */
 	public String getPlanID() {
 		return planID;

@@ -29,6 +29,8 @@ public enum State {
 
 	/**
 	 * Returns the state value as defined in the OSBAPI specification.
+	 * 
+	 * @return the state value
 	 */
 	public String value() {
 		return value;
@@ -36,6 +38,11 @@ public enum State {
 
 	/**
 	 * Returns the enum from the state value.
+	 * 
+	 * @param v
+	 *            the state value
+	 * 
+	 * @return the state enum
 	 */
 	public static State fromValue(String v) {
 		for (State c : State.values()) {

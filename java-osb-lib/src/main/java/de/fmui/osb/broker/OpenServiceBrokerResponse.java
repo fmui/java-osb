@@ -27,6 +27,8 @@ public abstract class OpenServiceBrokerResponse {
 
 	/**
 	 * Returns the HTTP status code.
+	 * 
+	 * @return the HTTP status code
 	 */
 	public int getStatusCode() {
 		return statusCode;
@@ -34,8 +36,15 @@ public abstract class OpenServiceBrokerResponse {
 
 	/**
 	 * Returns the response body.
+	 * 
+	 * @return the response body or {@code null} if there is no response body
 	 */
 	public JSONObject getResponseBody() {
 		return body;
+	}
+
+	@Override
+	public String toString() {
+		return "Status Code: " + getStatusCode() + "\nBody: " + body;
 	}
 }

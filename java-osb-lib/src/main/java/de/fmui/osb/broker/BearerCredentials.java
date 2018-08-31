@@ -26,6 +26,14 @@ public class BearerCredentials extends RequestCredentials {
 
 	private String token;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param request
+	 *            the HTTP request object
+	 * @param token
+	 *            the token
+	 */
 	public BearerCredentials(HttpServletRequest request, String token) {
 		super(request);
 		this.token = token;
@@ -33,14 +41,21 @@ public class BearerCredentials extends RequestCredentials {
 
 	/**
 	 * Returns the token.
+	 * 
+	 * @return the token
 	 */
 	public String getToken() {
 		return token;
 	}
 
 	/**
-	 * Creates a {@link BasicAuthCredentials} object if the request has a bearer
-	 * token.
+	 * Creates a {@link BearerCredentials} object if the request has a bearer token.
+	 * 
+	 * @param request
+	 *            the HTTP request object
+	 * 
+	 * @return a {@link BearerCredentials} or {@code null} if the request does not
+	 *         contain a bearer token
 	 */
 	public static BearerCredentials createCredentialsFromRequest(HttpServletRequest request) {
 		String[] authHeader = HttpUtils.splitAuthHeader(request);

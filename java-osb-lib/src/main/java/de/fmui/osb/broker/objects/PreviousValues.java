@@ -28,6 +28,8 @@ public class PreviousValues extends AbstractOpenServiceBrokerObject implements J
 
 	/**
 	 * Returns the service ID.
+	 * 
+	 * @return the service ID
 	 */
 	@Deprecated
 	public String getServiceID() {
@@ -36,6 +38,8 @@ public class PreviousValues extends AbstractOpenServiceBrokerObject implements J
 
 	/**
 	 * Returns the plan ID.
+	 * 
+	 * @return the plan ID
 	 */
 	public String getPlanID() {
 		return getString(KEY_PLAN_ID);

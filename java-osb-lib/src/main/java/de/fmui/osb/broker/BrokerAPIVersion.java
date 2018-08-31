@@ -28,6 +28,9 @@ public class BrokerAPIVersion implements Comparable<BrokerAPIVersion> {
 	 * 
 	 * @param version
 	 *            the version as string
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if the provided string is not a version string
 	 */
 	public BrokerAPIVersion(String version) {
 		parse(version);
@@ -35,6 +38,8 @@ public class BrokerAPIVersion implements Comparable<BrokerAPIVersion> {
 
 	/**
 	 * Returns the major version.
+	 * 
+	 * @return the major version
 	 */
 	public int getMajorVersion() {
 		return major;
@@ -42,6 +47,8 @@ public class BrokerAPIVersion implements Comparable<BrokerAPIVersion> {
 
 	/**
 	 * Returns the minor version.
+	 * 
+	 * @return the minor version
 	 */
 	public int getMinorVersion() {
 		return minor;

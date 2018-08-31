@@ -43,6 +43,8 @@ public class OriginatingIdentity {
 
 	/**
 	 * Returns the HTTP header.
+	 * 
+	 * @return the HTTP header
 	 */
 	public String getHeader() {
 		return header;
@@ -50,6 +52,8 @@ public class OriginatingIdentity {
 
 	/**
 	 * Returns the platform.
+	 * 
+	 * @return the platform
 	 */
 	public String getPlatform() {
 		return platform;
@@ -57,6 +61,8 @@ public class OriginatingIdentity {
 
 	/**
 	 * Returns the value as a string.
+	 * 
+	 * @return the value as a string
 	 */
 	public String getValue() {
 		return value;
@@ -64,6 +70,8 @@ public class OriginatingIdentity {
 
 	/**
 	 * Returns the value as a JSON object.
+	 * 
+	 * @return the value as a JSON object
 	 */
 	public JSONObject getValueAsJSON() {
 		return json;

@@ -35,6 +35,11 @@ public class JSONObjectImpl extends LinkedHashMap<String, Object> implements JSO
 
 	/**
 	 * Constructor with initial values.
+	 * 
+	 * @param m
+	 *            a map containing the initial values of this object
+	 * @throws NullPointerException
+	 *             if the specified map is {@code null}
 	 */
 	public JSONObjectImpl(Map<String, Object> m) {
 		super(m);

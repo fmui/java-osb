@@ -36,6 +36,8 @@ public class BindingLastOperationRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the instance ID.
+	 * 
+	 * @return the service instance ID
 	 */
 	public String getInstanceID() {
 		return instanceID;
@@ -43,6 +45,8 @@ public class BindingLastOperationRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the binding ID.
+	 * 
+	 * @return the service binding ID
 	 */
 	public String getBindingID() {
 		return bindingID;
@@ -50,6 +54,8 @@ public class BindingLastOperationRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the service ID.
+	 * 
+	 * @return the service ID
 	 */
 	public String getServiceID() {
 		return serviceID;
@@ -57,6 +63,8 @@ public class BindingLastOperationRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the plan ID.
+	 * 
+	 * @return the plan ID
 	 */
 	public String getPlanID() {
 		return planID;
@@ -64,6 +72,8 @@ public class BindingLastOperationRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the operation.
+	 * 
+	 * @return the operation identifier or {@code null} if it is not provided
 	 */
 	public String getOperation() {
 		return operation;

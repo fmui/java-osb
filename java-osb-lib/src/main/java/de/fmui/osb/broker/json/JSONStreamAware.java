@@ -24,7 +24,13 @@ import java.io.Writer;
  */
 public interface JSONStreamAware {
 	/**
-	 * write JSON string to out.
+	 * Writes JSON string to out.
+	 * 
+	 * @param out
+	 *            the writer
+	 * 
+	 * @throws IOException
+	 *             if writing fails
 	 */
 	void writeJSONString(Writer out) throws IOException;
 }

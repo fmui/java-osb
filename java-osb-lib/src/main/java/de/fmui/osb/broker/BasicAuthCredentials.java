@@ -25,24 +25,38 @@ import de.fmui.osb.broker.internal.io.IOUtils;
  */
 public class BasicAuthCredentials extends RequestCredentials {
 
-	private String user;
+	private String username;
 	private String password;
 
-	public BasicAuthCredentials(HttpServletRequest request, String user, String password) {
+	/**
+	 * Constructor.
+	 * 
+	 * @param request
+	 *            the HTTP request object
+	 * @param username
+	 *            the user name
+	 * @param password
+	 *            the password
+	 */
+	public BasicAuthCredentials(HttpServletRequest request, String username, String password) {
 		super(request);
-		this.user = user;
+		this.username = username;
 		this.password = password;
 	}
 
 	/**
 	 * Returns the user name.
+	 * 
+	 * @return the user name
 	 */
 	public String getUsername() {
-		return user;
+		return username;
 	}
 
 	/**
 	 * Returns the password.
+	 * 
+	 * @return the password
 	 */
 	public String getPassword() {
 		return password;
@@ -51,6 +65,12 @@ public class BasicAuthCredentials extends RequestCredentials {
 	/**
 	 * Creates a {@link BasicAuthCredentials} object if the request has basic auth
 	 * credentials.
+	 * 
+	 * @param request
+	 *            the HTTP request object
+	 * 
+	 * @return a {@link BasicAuthCredentials} or {@code null} if the request does
+	 *         not contain basic auth credentials
 	 */
 	public static BasicAuthCredentials createCredentialsFromRequest(HttpServletRequest request) {
 		String[] authHeader = HttpUtils.splitAuthHeader(request);

@@ -22,6 +22,12 @@ public interface ErrorLogHandler {
 
 	/**
 	 * Logs error messages.
+	 * 
+	 * @param message
+	 *            a format string containing the error message
+	 * @param args
+	 *            additional arguments
+	 *
 	 */
 	void logError(String message, Object... args);
 }

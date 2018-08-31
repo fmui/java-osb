@@ -27,6 +27,14 @@ public class BrokerUtils {
 
 	/**
 	 * Reads the catalog from a resource file.
+	 * 
+	 * @param path
+	 *            the resource path
+	 * 
+	 * @return a ready-to-use {@link CatalogResponseBody} object
+	 * 
+	 * @throws IOException
+	 *             if reading or parsing the catalog file fails
 	 */
 	public static CatalogResponseBody readCatalogFromResourceFile(String path) throws IOException {
 		CatalogResponseBody result = new CatalogResponseBody();
@@ -45,8 +53,18 @@ public class BrokerUtils {
 	}
 
 	/**
-	 * Checks if the credentials are basic auth and if username and password
+	 * Checks if the credentials are basic auth and if user name and password
 	 * correct.
+	 * 
+	 * @param credentials
+	 *            the credentials to check
+	 * @param username
+	 *            the user name
+	 * @param password
+	 *            the password
+	 * 
+	 * @throws UnauthorizedException
+	 *             if the credentials don't match user name and password
 	 */
 	public static void authenticate(RequestCredentials credentials, String username, String password)
 			throws UnauthorizedException {

@@ -59,6 +59,8 @@ public class OpenServiceBrokerException extends Exception {
 
 	/**
 	 * Returns the HTTP status code.
+	 * 
+	 * @return the HTTP status code
 	 */
 	public int getStatusCode() {
 		return statusCode;
@@ -66,6 +68,8 @@ public class OpenServiceBrokerException extends Exception {
 
 	/**
 	 * Returns the error code.
+	 * 
+	 * @return the error, may be {@code null}
 	 */
 	public String getError() {
 		return error;
@@ -73,13 +77,18 @@ public class OpenServiceBrokerException extends Exception {
 
 	/**
 	 * Returns the error description.
+	 * 
+	 * @return the description, may be {@code null}
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * Returns the JSON representation of the exception.
+	 * Returns the JSON representation of the exception as defined in the OSBAPI
+	 * specification.
+	 * 
+	 * @return the JSON representation of the exception
 	 */
 	public String toJSONString() {
 		JSONObjectImpl json = new JSONObjectImpl();

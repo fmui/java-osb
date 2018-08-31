@@ -30,6 +30,7 @@
     <packaging>jar</packaging>
 
     <name>java-osb-lib</name>
+    <description>A Java library for Open Service Broker implementations.</description>
 
     <dependencies>
         <dependency>

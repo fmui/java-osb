@@ -1,6 +1,7 @@
 # Java Open Service Broker
 
 [![Build Status](https://travis-ci.org/fmui/java-osb.svg?branch=master)](https://travis-ci.org/fmui/java-osb)
+[![Maven Central](https://img.shields.io/maven-central/v/de.fmui.osb.broker/java-osb-lib.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22de.fmui.osb.broker%22%20AND%20a:%22java-osb-lib%22)
 
 The Java Open Service Broker is Java library for developing an [Open Service Broker](https://github.com/openservicebrokerapi/servicebroker/).
 

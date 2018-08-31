@@ -92,6 +92,9 @@
                 <version>3.0.1</version>
                 <configuration>
                     <excludePackageNames>de.fmui.osb.broker.internal:de.fmui.osb.broker.internal.*</excludePackageNames>
+                    <additionalOptions>
+                        <additionalOption>-html5</additionalOption>
+                    </additionalOptions>
                 </configuration>
                 <executions>
                     <execution>

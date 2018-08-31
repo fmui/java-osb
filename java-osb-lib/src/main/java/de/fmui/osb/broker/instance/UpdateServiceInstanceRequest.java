@@ -27,6 +27,8 @@ public class UpdateServiceInstanceRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the instance ID.
+	 * 
+	 * @return the service instance ID
 	 */
 	public String getInstanceID() {
 		return instanceID;

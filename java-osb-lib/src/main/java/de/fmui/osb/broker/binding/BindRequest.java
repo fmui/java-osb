@@ -29,6 +29,8 @@ public class BindRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the instance ID.
+	 * 
+	 * @return the service instance ID
 	 */
 	public String getInstanceID() {
 		return instanceID;
@@ -36,6 +38,8 @@ public class BindRequest extends OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the binding ID.
+	 * 
+	 * @return the service binding ID
 	 */
 	public String getBindingID() {
 		return bindingID;

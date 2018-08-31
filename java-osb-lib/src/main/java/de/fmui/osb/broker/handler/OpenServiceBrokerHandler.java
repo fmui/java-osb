@@ -27,6 +27,7 @@ import de.fmui.osb.broker.binding.UnbindResponse;
 import de.fmui.osb.broker.catalog.CatalogRequest;
 import de.fmui.osb.broker.catalog.CatalogResponse;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
+import de.fmui.osb.broker.exceptions.UnauthorizedException;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
 import de.fmui.osb.broker.instance.FetchInstanceRequest;
@@ -45,59 +46,147 @@ public interface OpenServiceBrokerHandler {
 
 	/**
 	 * Handles authentication.
+	 * 
+	 * This method should throw a {@link UnauthorizedException} if the
+	 * authentication fails.
+	 * 
+	 * @param credentials
+	 *            the credentials object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	void authenticate(RequestCredentials credentials) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a catalog request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	CatalogResponse getCatalog(CatalogRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a provision request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	ProvisionResponse provision(ProvisionRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a fetch instance request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	FetchInstanceResponse fetchServiceInstance(FetchInstanceRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles an update request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	UpdateServiceInstanceResponse update(UpdateServiceInstanceRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a deprovision request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	DeprovisionResponse deprovision(DeprovisionRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles an last operation request for service instances.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	InstanceLastOperationResponse getLastOperationForInstance(InstanceLastOperationRequest request)
 			throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a bind request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	BindResponse bind(BindRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles a fetch binding request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	FetchBindingResponse fetchServiceBinding(FetchBindingRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles an unbind request.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	UnbindResponse unbind(UnbindRequest request) throws OpenServiceBrokerException;
 
 	/**
 	 * Handles an last operation request for service bindings.
+	 * 
+	 * @param request
+	 *            the request object
+	 * 
+	 * @return the response object
+	 * 
+	 * @throws OpenServiceBrokerException
+	 *             to indicate an issue or an invalid request
 	 */
 	BindingLastOperationResponse getLastOperationForBinding(BindingLastOperationRequest request)
 			throws OpenServiceBrokerException;
-
 }

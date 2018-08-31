@@ -24,12 +24,20 @@ public class RequestCredentials {
 
 	private HttpServletRequest request;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param request
+	 *            the HTTP request object
+	 */
 	RequestCredentials(HttpServletRequest request) {
 		this.request = request;
 	}
 
 	/**
 	 * Returns the HTTP request object.
+	 * 
+	 * @return the HTTP request object
 	 */
 	public HttpServletRequest getHttpServletRequest() {
 		return request;

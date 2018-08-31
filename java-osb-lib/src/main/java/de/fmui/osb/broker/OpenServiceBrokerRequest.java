@@ -32,6 +32,8 @@ public abstract class OpenServiceBrokerRequest {
 
 	/**
 	 * Returns Broker API Version sent by the platform.
+	 * 
+	 * @return the Broker API Version object
 	 */
 	public BrokerAPIVersion getBrokerAPIVersion() {
 		return brokerAPIVersion;
@@ -42,8 +44,11 @@ public abstract class OpenServiceBrokerRequest {
 	}
 
 	/**
-	 * Returns {@code true} if the {@code accepts_ncomplete} query parameter is set
-	 * to {@code true}.
+	 * Returns if the {@code accepts_ncomplete} query parameter is set to
+	 * {@code true}.
+	 * 
+	 * @return {@code true} if the {@code accepts_ncomplete} query parameter is set
+	 *         to {@code true}, {@code false} otherwise
 	 */
 	public boolean isAcceptsIncomplete() {
 		return acceptsIncomplete;
@@ -55,6 +60,8 @@ public abstract class OpenServiceBrokerRequest {
 
 	/**
 	 * Returns Originating Identity sent by the platform.
+	 * 
+	 * @return the Originating Identity object
 	 */
 	public OriginatingIdentity getOriginatingIdentity() {
 		return originatingIdentity;
@@ -65,7 +72,9 @@ public abstract class OpenServiceBrokerRequest {
 	}
 
 	/**
-	 * Returns the credentials.
+	 * Gets the credentials provided by the platform.
+	 * 
+	 * @return a {@link RequestCredentials} object
 	 */
 	public RequestCredentials getCredentials() {
 		return credentials;
@@ -77,6 +86,8 @@ public abstract class OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the body of the request.
+	 * 
+	 * @return the request body or {@code null} if there is no request body
 	 */
 	public JSONObject getRequestBody() {
 		return body;
@@ -88,6 +99,8 @@ public abstract class OpenServiceBrokerRequest {
 
 	/**
 	 * Returns the HTTP request object.
+	 * 
+	 * @return the HTTP request object
 	 */
 	public HttpServletRequest getHttpServletRequest() {
 		return request;
@@ -95,5 +108,16 @@ public abstract class OpenServiceBrokerRequest {
 
 	void setHttpServletRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+
+	@Override
+	public String toString() {
+		return "Request: " + request.getMethod() + " " + request.getRequestURI()
+				+ (request.getQueryString() == null ? "" : "?" + request.getRequestURI()) + "\n" + //
+				"Broker API Version: " + brokerAPIVersion + "\n" + //
+				"Originating Identity: " + (originatingIdentity == null ? "-"
+						: originatingIdentity.getPlatform() + " " + originatingIdentity.getValueAsJSON())
+				+ "\n" + //
+				"Body: " + body;
 	}
 }

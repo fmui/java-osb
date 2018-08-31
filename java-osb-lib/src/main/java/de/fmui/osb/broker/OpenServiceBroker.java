@@ -72,6 +72,8 @@ public class OpenServiceBroker {
 
 	/**
 	 * Gets the minimum Broker API Version that this configured for this broker.
+	 * 
+	 * @return the min broker API version
 	 */
 	public synchronized BrokerAPIVersion getBrokerAPIMinVersion() {
 		return brokerAPIMinVersion;
@@ -89,6 +91,8 @@ public class OpenServiceBroker {
 
 	/**
 	 * Gets the current error log handler.
+	 * 
+	 * @return the error log handler
 	 */
 	public synchronized ErrorLogHandler getErrorLogHandler() {
 		return errorLogHandler;
@@ -107,6 +111,8 @@ public class OpenServiceBroker {
 
 	/**
 	 * Gets the current contextHandler log handler.
+	 * 
+	 * @return the context handler
 	 */
 	public synchronized ContextHandler getContextHandler() {
 		return contextHandler;
@@ -382,7 +388,7 @@ public class OpenServiceBroker {
 			return credentials;
 		}
 
-		return null;
+		return new RequestCredentials(request);
 	}
 
 	protected boolean getAcceptsIncomplete(HttpServletRequest request) {

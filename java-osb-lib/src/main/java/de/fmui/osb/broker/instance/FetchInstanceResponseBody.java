@@ -28,6 +28,11 @@ public class FetchInstanceResponseBody extends AbstractOpenServiceBrokerObject i
 	public static final String KEY_DASHBOARD_URL = "dashboard_url";
 	public static final String KEY_PARAMETERS = "parameters";
 
+	/**
+	 * Gets the service ID.
+	 * 
+	 * @return the service ID
+	 */
 	public String getServiceID() {
 		return getString(KEY_SERVICE_ID);
 	}
@@ -36,6 +41,11 @@ public class FetchInstanceResponseBody extends AbstractOpenServiceBrokerObject i
 		put(KEY_SERVICE_ID, id);
 	}
 
+	/**
+	 * Gets the plan ID.
+	 * 
+	 * @return the plan ID
+	 */
 	public String getPlanID() {
 		return getString(KEY_PLAN_ID);
 	}

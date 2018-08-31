@@ -32,6 +32,12 @@ public class Parameters extends AbstractOpenServiceBrokerObject implements JSONO
 
 	/**
 	 * Constructor with initial values.
+	 * 
+	 * @param m
+	 *            a map containing the initial values of this object
+	 * 
+	 * @throws NullPointerException
+	 *             if the specified map is {@code null}
 	 */
 	public Parameters(Map<String, Object> m) {
 		super(m);

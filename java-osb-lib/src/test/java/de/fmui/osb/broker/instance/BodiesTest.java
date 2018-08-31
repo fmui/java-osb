@@ -77,9 +77,7 @@ public class BodiesTest {
 	public void testUpdateServiceInstanceRequestBody() throws Exception {
 		UpdateServiceInstanceRequestBody body = new UpdateServiceInstanceRequestBody();
 
-		try (Reader r = JSONHelper.getJSONReader("/json/update.json")) {
-			body.load(r);
-		}
+		body.load(JSONHelper.getJSONString("/json/update.json"));
 
 		assertEquals("service-id-here", body.getServiceID());
 		assertEquals("plan-id-here", body.getPlanID());
@@ -118,7 +116,7 @@ public class BodiesTest {
 		parameters.put("key", "value");
 		body.setParameters(parameters);
 		assertEquals("value", body.getParameters().get("key"));
-		
+
 		body.validate();
 	}
 

@@ -24,7 +24,16 @@ public interface ContextHandler {
 
 	/**
 	 * Converts a {@link Context} object into a more specific {@link Context}
-	 * object.
+	 * object, if possible.
+	 * 
+	 * Usually, the context object contains a {@code platform} field, which
+	 * indicates where the request is coming from. Bases on this fields, a more
+	 * specific context object can be derived.
+	 * 
+	 * @param context
+	 *            the original context object
+	 * 
+	 * @return a {@link Context} object
 	 */
 	Context convertContext(Context context);
 }

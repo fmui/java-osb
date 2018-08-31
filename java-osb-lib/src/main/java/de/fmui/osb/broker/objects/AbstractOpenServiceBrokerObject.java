@@ -46,6 +46,11 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Constructor with initial values.
+	 * 
+	 * @param m
+	 *            a map containing the initial values of this object
+	 * @throws NullPointerException
+	 *             if the specified map is {@code null}
 	 */
 	public AbstractOpenServiceBrokerObject(Map<String, Object> m) {
 		super(m);
@@ -53,6 +58,11 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Creates and adds a new object.
+	 * 
+	 * @param key
+	 *            the key of the new object
+	 * 
+	 * @return the newly created object
 	 */
 	public JSONObject createObject(String key) {
 		JSONObject result = new JSONObjectImpl();
@@ -62,6 +72,15 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Creates and adds a new array.
+	 * 
+	 * @param <T>
+	 *            the type of the array elements
+	 * @param key
+	 *            the key of the new array
+	 * @param clazz
+	 *            the class of the elements of the array
+	 * 
+	 * @return the newly created array
 	 */
 	public <T> JSONArray<T> createArray(String key, Class<T> clazz) {
 		return createArray(key, clazz, null);
@@ -69,6 +88,17 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Creates, fills, and adds a new array.
+	 * 
+	 * @param <T>
+	 *            the type of the array elements
+	 * @param key
+	 *            the key of the new array
+	 * @param clazz
+	 *            the class of the elements of the array
+	 * @param values
+	 *            initial values of the array
+	 * 
+	 * @return the newly created array
 	 */
 	public <T> JSONArray<T> createArray(String key, Class<T> clazz, T[] values) {
 		JSONArray<T> result = new JSONArrayImpl<T>(clazz);
@@ -87,6 +117,17 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 	 * Adds elements to an array.
 	 * 
 	 * If the array doesn't exist, it will be created.
+	 * 
+	 * @param <T>
+	 *            the type of the array elements
+	 * @param key
+	 *            the key of the new array
+	 * @param clazz
+	 *            the class of the elements of the array
+	 * @param values
+	 *            the values to add
+	 * 
+	 * @return the updated or created array
 	 */
 	public <T> JSONArray<T> addToArray(String key, Class<T> clazz, T[] values) {
 		JSONArray<T> existingArray = getArray(key, clazz);
@@ -105,6 +146,15 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets and casts a value of a field.
+	 * 
+	 * @param <T>
+	 *            the type of the value
+	 * @param key
+	 *            the field key
+	 * @param clazz
+	 *            the expected class of the value
+	 * 
+	 * @return the value
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> T get(String key, Class<T> clazz) {
@@ -126,6 +176,15 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets an array and check if all elements are of the given class.
+	 * 
+	 * @param <T>
+	 *            the type of the array elements
+	 * @param key
+	 *            the field key
+	 * @param clazz
+	 *            the expected class of the elements in the array
+	 * 
+	 * @return the array
 	 */
 	@SuppressWarnings("unchecked")
 	public <T> JSONArray<T> getArray(String key, Class<T> clazz) {
@@ -153,6 +212,11 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets and casts a value of a field to a String.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return the value
 	 */
 	public String getString(String key) {
 		return get(key, String.class);
@@ -160,6 +224,11 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets and casts a value of a field to a Long.
+	 * 
+	 * @param key
+	 *            the field key
+	 *
+	 * @return the value
 	 */
 	public Long getNumber(String key) {
 		return get(key, Long.class);
@@ -167,6 +236,11 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets and casts a value of a field to a Boolean.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return the value
 	 */
 	public Boolean getBoolean(String key) {
 		return get(key, Boolean.class);
@@ -174,11 +248,26 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Gets and casts a value of a field to a {@link JSONObject}.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return the JSON object
 	 */
 	public JSONObject getJSONObject(String key) {
 		return get(key, JSONObject.class);
 	}
 
+	/**
+	 * Checks if a field value exists, is {@code null}, is empty string, or an empty
+	 * list.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return {@code true} if the field does not exist, its value is {@code null}
+	 *         or an empty string or an empty list, {@code false} otherwise
+	 */
 	public boolean isNullOrEmpty(String key) {
 		Object value = get(key);
 		if (value == null) {
@@ -194,6 +283,16 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 		return false;
 	}
 
+	/**
+	 * Checks if a field value is valid CLI name as defined in the OSBAPI
+	 * specification.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return {@code true} if the field exists, its value is string, and the string
+	 *         is a valid CLI name, {@code false} otherwise
+	 */
 	public boolean isValidName(String key) {
 		Object value = get(key);
 		if (value == null) {
@@ -211,6 +310,15 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 		return value.toString().matches(PATTERN_CLI_NAME);
 	}
 
+	/**
+	 * Checks if a field value is valid ID as defined in the OSBAPI specification.
+	 * 
+	 * @param key
+	 *            the field key
+	 * 
+	 * @return {@code true} if the field exists, its value is string, and the string
+	 *         is a valid ID, {@code false} otherwise
+	 */
 	public boolean isValidID(String key) {
 		Object value = get(key);
 		if (value == null) {
@@ -233,6 +341,12 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 		validateSubobjects();
 	}
 
+	/**
+	 * Walks through all fields in this object and validates their values.
+	 * 
+	 * @throws ValidationException
+	 *             if a validation fails
+	 */
 	protected void validateSubobjects() throws ValidationException {
 		for (Object value : values()) {
 			validateObject(value);
@@ -251,11 +365,43 @@ public abstract class AbstractOpenServiceBrokerObject extends JSONObjectImpl imp
 
 	/**
 	 * Loads a JSON into this object.
+	 * 
+	 * @param in
+	 *            the reader providing the JSON
+	 * 
+	 * @throws IOException
+	 *             if reading or parsing fails
 	 */
 	public void load(Reader in) throws IOException {
+		if (in == null) {
+			throw new IllegalArgumentException("Reader must not be null!");
+		}
+
 		JSONParser parser = new JSONParser();
 		try {
 			parser.parse(in, this);
+		} catch (JSONParseException e) {
+			throw new IOException("Invalid JSON!", e);
+		}
+	}
+
+	/**
+	 * Loads a JSON into this object.
+	 * 
+	 * @param json
+	 *            the JSON string
+	 * 
+	 * @throws IOException
+	 *             if reading or parsing fails
+	 */
+	public void load(String json) throws IOException {
+		if (json == null || json.isEmpty()) {
+			throw new IllegalArgumentException("String must not be null or empty!");
+		}
+
+		JSONParser parser = new JSONParser();
+		try {
+			parser.parse(json, this);
 		} catch (JSONParseException e) {
 			throw new IOException("Invalid JSON!", e);
 		}

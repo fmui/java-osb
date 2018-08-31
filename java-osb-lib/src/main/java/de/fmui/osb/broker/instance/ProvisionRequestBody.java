@@ -41,6 +41,8 @@ public class ProvisionRequestBody extends AbstractOpenServiceBrokerObject implem
 
 	/**
 	 * Returns the service ID.
+	 * 
+	 * @return the service ID
 	 */
 	public String getServiceID() {
 		return getString(KEY_SERVICE_ID);
@@ -48,6 +50,8 @@ public class ProvisionRequestBody extends AbstractOpenServiceBrokerObject implem
 
 	/**
 	 * Returns the plan ID.
+	 * 
+	 * @return the plan ID
 	 */
 	public String getPlanID() {
 		return getString(KEY_PLAN_ID);
