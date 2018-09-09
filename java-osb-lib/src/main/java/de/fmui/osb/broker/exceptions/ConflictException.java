@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Conflict exception.
+ * 
+ * <p>
+ * HTTP status code: <em>409</em><br>
+ * </p>
+ */
 public class ConflictException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

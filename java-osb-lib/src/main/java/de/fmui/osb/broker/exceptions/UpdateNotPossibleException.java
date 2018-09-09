@@ -16,18 +16,18 @@
 package de.fmui.osb.broker.exceptions;
 
 /**
- * Requires App exception.
+ * Update not possible exception.
  * 
  * <p>
  * HTTP status code: <em>422</em><br>
- * OSB error code: <em>RequiresApp</em><br>
+ * OSB error code: <em>ConcurrencyError</em><br>
  * </p>
  */
-public class RequiresAppException extends OpenServiceBrokerException {
+public class UpdateNotPossibleException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;
 
-	public RequiresAppException(String description) {
-		super(422, "RequiresApp", description);
+	public UpdateNotPossibleException(String description) {
+		super(422, "UpdateNotPossibleError", description);
 	}
 }

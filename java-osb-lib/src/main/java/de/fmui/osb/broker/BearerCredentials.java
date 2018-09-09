@@ -39,6 +39,11 @@ public class BearerCredentials extends RequestCredentials {
 		this.token = token;
 	}
 
+	@Override
+	public boolean isTokenAuthentication() {
+		return true;
+	}
+
 	/**
 	 * Returns the token.
 	 * 

@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Unauthorized exception.
+ * 
+ * <p>
+ * HTTP status code: <em>401</em><br>
+ * </p>
+ */
 public class UnauthorizedException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

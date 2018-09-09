@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Bad Request exception.
+ * 
+ * <p>
+ * HTTP status code: <em>400</em><br>
+ * </p>
+ */
 public class BadRequestException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

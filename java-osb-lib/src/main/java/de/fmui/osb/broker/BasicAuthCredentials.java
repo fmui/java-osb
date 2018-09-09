@@ -44,6 +44,11 @@ public class BasicAuthCredentials extends RequestCredentials {
 		this.password = password;
 	}
 
+	@Override
+	public boolean isBasicAuthentication() {
+		return true;
+	}
+
 	/**
 	 * Returns the user name.
 	 * 

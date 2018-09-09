@@ -26,6 +26,7 @@ import java.util.Map;
 import de.fmui.osb.broker.internal.json.parser.JSONParseException;
 import de.fmui.osb.broker.internal.json.parser.JSONParser;
 import de.fmui.osb.broker.json.JSONAware;
+import de.fmui.osb.broker.json.JSONObject;
 import de.fmui.osb.broker.json.JSONStreamAware;
 
 public final class JSONValue {
@@ -54,6 +55,20 @@ public final class JSONValue {
 	public static <T> T parse(String s, T root) {
 		StringReader in = new StringReader(s);
 		return parse(in, root);
+	}
+
+	public static JSONObject parseObject(Reader in) {
+		try {
+			JSONParser parser = new JSONParser();
+			return parser.parse(in, new JSONObjectImpl());
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	public static JSONObject parseObject(String s) {
+		StringReader in = new StringReader(s);
+		return parseObject(in);
 	}
 
 	/**

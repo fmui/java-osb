@@ -18,16 +18,13 @@ package de.fmui.osb.broker.example.handler;
 import java.io.IOException;
 import java.util.UUID;
 
+import de.fmui.osb.broker.AbstractOpenServiceBrokerHandler;
 import de.fmui.osb.broker.OSBUtils;
 import de.fmui.osb.broker.RequestCredentials;
 import de.fmui.osb.broker.State;
 import de.fmui.osb.broker.binding.BindRequest;
 import de.fmui.osb.broker.binding.BindResponse;
 import de.fmui.osb.broker.binding.BindResponseBody;
-import de.fmui.osb.broker.binding.BindingLastOperationRequest;
-import de.fmui.osb.broker.binding.BindingLastOperationResponse;
-import de.fmui.osb.broker.binding.FetchBindingRequest;
-import de.fmui.osb.broker.binding.FetchBindingResponse;
 import de.fmui.osb.broker.binding.UnbindRequest;
 import de.fmui.osb.broker.binding.UnbindResponse;
 import de.fmui.osb.broker.catalog.CatalogRequest;
@@ -43,7 +40,6 @@ import de.fmui.osb.broker.exceptions.ConflictException;
 import de.fmui.osb.broker.exceptions.GoneException;
 import de.fmui.osb.broker.exceptions.NotFoundException;
 import de.fmui.osb.broker.exceptions.OpenServiceBrokerException;
-import de.fmui.osb.broker.handler.OpenServiceBrokerHandler;
 import de.fmui.osb.broker.instance.DeprovisionRequest;
 import de.fmui.osb.broker.instance.DeprovisionResponse;
 import de.fmui.osb.broker.instance.DeprovisionResponseBody;
@@ -62,7 +58,7 @@ import de.fmui.osb.broker.instance.UpdateServiceInstanceResponseBody;
 import de.fmui.osb.broker.objects.Credentials;
 import de.fmui.osb.broker.objects.Parameters;
 
-public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler {
+public class AsyncBrokerExampleHandler extends AbstractOpenServiceBrokerHandler {
 
 	private FakeService fakeService;
 	private CatalogResponseBody catalog;
@@ -71,7 +67,7 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler {
 		this.fakeService = fakeService;
 
 		// load catalog from file into memory
-		catalog = BrokerUtils.readCatalogFromResourceFile("/catalog.json");
+		catalog = readCatalogFromResourceFile("/catalog.json");
 	}
 
 	@Override
@@ -274,11 +270,6 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler {
 	}
 
 	@Override
-	public FetchBindingResponse fetchServiceBinding(FetchBindingRequest request) throws OpenServiceBrokerException {
-		throw new BadRequestException("Fetching service bindings is not supported!");
-	}
-
-	@Override
 	public UnbindResponse unbind(UnbindRequest request) throws OpenServiceBrokerException {
 		FakeServiceInstance instance = fakeService.getServiceInstance(request.getInstanceID());
 		if (instance == null) {
@@ -299,11 +290,5 @@ public class AsyncBrokerExampleHandler implements OpenServiceBrokerHandler {
 			// binding was unknown
 			throw new GoneException("Unknown binding.");
 		}
-	}
-
-	@Override
-	public BindingLastOperationResponse getLastOperationForBinding(BindingLastOperationRequest request)
-			throws OpenServiceBrokerException {
-		throw new BadRequestException("Async for binding is not supported!");
 	}
 }

@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Gone exception.
+ * 
+ * <p>
+ * HTTP status code: <em>410</em><br>
+ * </p>
+ */
 public class GoneException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

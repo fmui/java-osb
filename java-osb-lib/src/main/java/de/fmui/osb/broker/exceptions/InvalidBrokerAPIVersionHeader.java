@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Invalid Broker API Version Header exception.
+ * 
+ * <p>
+ * HTTP status code: <em>412</em><br>
+ * </p>
+ */
 public class InvalidBrokerAPIVersionHeader extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

@@ -15,6 +15,14 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Concurrency Error exception.
+ * 
+ * <p>
+ * HTTP status code: <em>422</em><br>
+ * OSB error code: <em>ConcurrencyError</em><br>
+ * </p>
+ */
 public class ConcurrencyErrorException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

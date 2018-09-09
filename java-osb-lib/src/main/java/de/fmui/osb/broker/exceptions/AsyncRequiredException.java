@@ -15,6 +15,14 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Async Required exception.
+ * 
+ * <p>
+ * HTTP status code: <em>422</em><br>
+ * OSB error code: <em>AsyncRequired</em><br>
+ * </p>
+ */
 public class AsyncRequiredException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

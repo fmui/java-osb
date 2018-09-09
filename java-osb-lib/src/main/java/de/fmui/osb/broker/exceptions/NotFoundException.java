@@ -15,6 +15,13 @@
  */
 package de.fmui.osb.broker.exceptions;
 
+/**
+ * Not Found exception.
+ * 
+ * <p>
+ * HTTP status code: <em>404</em><br>
+ * </p>
+ */
 public class NotFoundException extends OpenServiceBrokerException {
 
 	private static final long serialVersionUID = 1L;

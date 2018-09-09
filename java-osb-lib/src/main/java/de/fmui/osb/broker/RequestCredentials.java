@@ -42,4 +42,23 @@ public class RequestCredentials {
 	public HttpServletRequest getHttpServletRequest() {
 		return request;
 	}
+
+	/**
+	 * Returns if basic authentication is used.
+	 * 
+	 * @return {@code true} if basic authentication is used, {@code false} otherwise
+	 */
+	public boolean isBasicAuthentication() {
+		return false;
+	}
+
+	/**
+	 * Returns if token authentication is used.
+	 * 
+	 * @return {@code true} if token authentication is used, {@code false} otherwise
+	 */
+	public boolean isTokenAuthentication() {
+		return false;
+	}
+
 }
