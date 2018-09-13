@@ -136,10 +136,9 @@ public class AsyncBrokerExampleHandler extends AbstractOpenServiceBrokerHandler 
 		FetchInstanceResponseBody body = new FetchInstanceResponseBody();
 		body.setServiceID(existingInstance.getServiceID());
 		body.setPlanID(existingInstance.getPlanID());
-
-		Parameters parameters = new Parameters();
-		parameters.putAll(existingInstance.getParameters());
-		body.setParameters(parameters);
+		if (existingInstance.getParameters() != null) {
+			body.setParameters(new Parameters(existingInstance.getParameters()));
+		}
 
 		return FetchInstanceResponse.builder().ok().body(body).build();
 	}

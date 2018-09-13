@@ -437,7 +437,7 @@ public class OpenServiceBroker {
 			// check content type
 			String contentType = request.getContentType();
 			if (contentType == null || !contentType.equalsIgnoreCase("application/json")) {
-				throw new BadRequestException("Content type is not set or not 'applictaion/json'!");
+				throw new BadRequestException("Content type is not set or not 'application/json'!");
 			}
 
 			// parse

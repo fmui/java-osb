@@ -123,7 +123,9 @@ public class SyncBrokerExampleHandler extends AbstractOpenServiceBrokerHandler {
 		FetchInstanceResponseBody body = new FetchInstanceResponseBody();
 		body.setServiceID(existingInstance.getServiceID());
 		body.setPlanID(existingInstance.getPlanID());
-		body.setParameters(new Parameters(existingInstance.getParameters()));
+		if (existingInstance.getParameters() != null) {
+			body.setParameters(new Parameters(existingInstance.getParameters()));
+		}
 
 		return FetchInstanceResponse.builder().ok().body(body).build();
 	}
