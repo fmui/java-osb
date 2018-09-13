@@ -28,7 +28,7 @@ Download [the latest JAR](https://search.maven.org/remote_content?g=de.fmui.osb.
 <dependency>
   <groupId>de.fmui.osb.broker</groupId>
   <artifactId>java-osb-lib</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2</version>
 </dependency>
 ```
 
